@@ -1,5 +1,6 @@
 package com.lws.permissionx;
 
+import android.content.Context;
 import android.content.DialogInterface;
 
 import androidx.activity.result.ActivityResultCallback;
@@ -71,9 +72,9 @@ public abstract class PermissionBuilder<I, O> {
      * @param permissionResult 权限结果回调
      */
     @Deprecated
-    public void request(ActivityResultCallback<O> permissionResult) {
+    public void request(@NonNull ActivityResultCallback<O> permissionResult) {
         this.permissionResultCallback = permissionResult;
-        if (PermissionX.isGranted(activity, permission)) {
+        if (isGranted(activity, permission)) {
             if (permission instanceof String) {
                 permissionResult.onActivityResult((O) Boolean.TRUE);
             } else {
@@ -90,6 +91,16 @@ public abstract class PermissionBuilder<I, O> {
             } else {
                 getInvisibleFragment().request(this);
             }
+        }
+    }
+
+    private <T> boolean isGranted(Context context, T permission) {
+        if (permission instanceof String) {
+            return PermissionX.hasPermissions(context, (String) permission);
+        } else if (permission instanceof String[]) {
+            return PermissionX.hasPermissions(context, ((String[]) permission)[0], (String[]) permission);
+        } else {
+            return true;
         }
     }
 
@@ -143,7 +154,7 @@ public abstract class PermissionBuilder<I, O> {
      * @param rationale 权限解释文字
      * @return PermissionBuilder
      */
-    public PermissionRequester<I, O> onRequestRationale(CharSequence rationale) {
+    public PermissionRequester<I, O> onRequestRationale(@NonNull CharSequence rationale) {
         if (PermissionDialogConfig.isAlertDialogAndroidX()) {
             this.rationale = () -> new AlertDialog.Builder(activity, PermissionDialogConfig.getDefaultDialogTheme())
                     .setMessage(rationale)
@@ -180,7 +191,7 @@ public abstract class PermissionBuilder<I, O> {
      * @param dialogSupplier 提供androidX AlertDialog
      * @return PermissionBuilder
      */
-    public PermissionRequester<I, O> onRequestRationale(AlertDialogSupplierX dialogSupplier) {
+    public PermissionRequester<I, O> onRequestRationale(@NonNull AlertDialogSupplierX dialogSupplier) {
         this.rationale = () -> {
             AlertDialog dialog = dialogSupplier.getBuilder().create();
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> {
@@ -202,7 +213,7 @@ public abstract class PermissionBuilder<I, O> {
      * @param dialogSupplier 提供android平台AlertDialog
      * @return PermissionBuilder
      */
-    public PermissionRequester<I, O> onRequestRationale(AlertDialogSupplier dialogSupplier) {
+    public PermissionRequester<I, O> onRequestRationale(@NonNull AlertDialogSupplier dialogSupplier) {
         this.rationale = () -> {
             android.app.AlertDialog dialog = dialogSupplier.getBuilder().create();
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> {
