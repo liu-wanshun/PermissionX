@@ -2,6 +2,7 @@ package com.lws.permissionapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.strictmode.FragmentStrictMode
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -12,6 +13,9 @@ class BottomNavActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBottomNavBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        FragmentStrictMode.defaultPolicy = FragmentStrictMode.Policy.Builder()
+            .penaltyLog()
+            .build()
         super.onCreate(savedInstanceState)
 
         binding = ActivityBottomNavBinding.inflate(layoutInflater)
