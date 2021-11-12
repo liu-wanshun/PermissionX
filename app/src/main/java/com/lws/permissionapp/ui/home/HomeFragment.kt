@@ -67,6 +67,20 @@ class HomeFragment : Fragment() {
                     )
                 }
         }
+
+
+        PermissionX.init(this)
+            .permissions(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+            .onRequestRationale("解释请求权限的原因")
+            .request { result ->
+                Log.e(
+                    "ssss",
+                    "onResult: $result"
+                )
+            }
     }
 
     override fun onDestroyView() {
