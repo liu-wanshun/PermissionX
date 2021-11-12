@@ -1,6 +1,7 @@
 package com.lws.permissionx;
 
 import androidx.activity.result.ActivityResultCallback;
+import androidx.annotation.NonNull;
 import androidx.arch.core.util.Function;
 import androidx.fragment.app.FragmentActivity;
 
@@ -30,11 +31,11 @@ public class PermissionRequester<I, O> {
      * @param permissionResult 请求结果回调
      */
     @SuppressWarnings("deprecation")
-    public void request(ActivityResultCallback<O> permissionResult) {
+    public void request(@NonNull ActivityResultCallback<O> permissionResult) {
         permissionBuilder.request(permissionResult);
     }
 
-    public <T extends PermissionRequester<I, O>> T transform(Function<PermissionRequester<I, O>, T> function) {
+    public <T extends PermissionRequester<I, O>> T transform(@NonNull Function<PermissionRequester<I, O>, T> function) {
         return function.apply(this);
     }
 
