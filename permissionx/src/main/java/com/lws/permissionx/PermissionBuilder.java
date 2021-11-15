@@ -237,7 +237,7 @@ public abstract class PermissionBuilder<I, O> {
     void removeInvisibleFragment() {
         Fragment fragment = getFragmentManager().findFragmentByTag(InvisibleFragment.TAG);
         if (fragment != null) {
-            getFragmentManager().beginTransaction().remove(fragment).commitNowAllowingStateLoss();
+            getFragmentManager().beginTransaction().remove(fragment).commitAllowingStateLoss();
         }
     }
 
@@ -254,16 +254,16 @@ public abstract class PermissionBuilder<I, O> {
         void showRationale();
     }
 
-    public static class SinglePermissionBuilderIml extends PermissionBuilder<String, Boolean> {
+    static class SinglePermissionBuilderIml extends PermissionBuilder<String, Boolean> {
 
-        public SinglePermissionBuilderIml(@NonNull FragmentActivity activity, @Nullable Fragment fragment, String permission) {
+        SinglePermissionBuilderIml(@NonNull FragmentActivity activity, @Nullable Fragment fragment, String permission) {
             super(activity, fragment, permission);
         }
     }
 
-    public static class MultiplePermissionBuilderIml extends PermissionBuilder<String[], Map<String, Boolean>> {
+    static class MultiplePermissionBuilderIml extends PermissionBuilder<String[], Map<String, Boolean>> {
 
-        public MultiplePermissionBuilderIml(@NonNull FragmentActivity activity, @Nullable Fragment fragment, String... permission) {
+        MultiplePermissionBuilderIml(@NonNull FragmentActivity activity, @Nullable Fragment fragment, String... permission) {
             super(activity, fragment, permission);
         }
     }
