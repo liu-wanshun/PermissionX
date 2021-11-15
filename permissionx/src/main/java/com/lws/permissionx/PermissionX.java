@@ -20,7 +20,7 @@ public class PermissionX {
         return new PermissionMediator(fragment);
     }
 
-    static boolean hasPermission(@NonNull Context context, @NonNull String permission) {
+    public static boolean hasPermission(@NonNull Context context, @NonNull String permission) {
         return PermissionChecker.checkSelfPermission(context, permission) == PermissionChecker.PERMISSION_GRANTED;
     }
 
