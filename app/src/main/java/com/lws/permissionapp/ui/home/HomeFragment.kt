@@ -78,7 +78,7 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
         PermissionX.getDefaultConfig()
             //设置权限解释弹窗AlertDialog主题(可选,默认为宿主Activity的主题中的AlertDialogTheme)
-            .setAlertDialogTheme(R.style.Theme_Material3_DayNight_Dialog_Alert).gravity = Gravity.BOTTOM
+            .setAlertDialogTheme(R.style.MyAlertDialogTheme)
     }
 
 
@@ -113,11 +113,18 @@ class HomeFragment : Fragment() {
 
     class TestDialog : DialogFragment() {
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-            return AlertDialog.Builder(requireContext())
+            return AlertDialog.Builder(requireContext(),R.style.MyAlertDialogTheme)
+                .setIcon(R.drawable.ic_launcher_foreground)
+                .setTitle("标题")
                 .setMessage("缺少权限")
                 .setNegativeButton("退出") { dialog, which ->
                     requireActivity().finish()
                 }.create()
+        }
+
+        override fun onStart() {
+            super.onStart()
+            dialog?.window?.setGravity(Gravity.BOTTOM)
         }
     }
 
