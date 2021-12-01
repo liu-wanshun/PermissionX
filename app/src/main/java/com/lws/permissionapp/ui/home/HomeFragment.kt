@@ -1,12 +1,15 @@
 package com.lws.permissionapp.ui.home
 
 import android.Manifest
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -78,18 +81,38 @@ class HomeFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        if (testDialog != null) {
+            return
+        }
         PermissionX.init(this)
-            .permissions(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            )
-            .onRequestRationale("解释请求权限的原因", Lifecycle.State.STARTED)
-            .request { result ->
-                Log.e(
-                    "ssss",
-                    "onResult: $result"
-                )
+            .permission(Manifest.permission.CAMERA)
+            .onRequestRationale("解释请求权限的原因,ON_PAUSE时自动Dismiss", Lifecycle.Event.ON_PAUSE)
+            .request {
+                if (it) {
+                    testDialog = null
+                    Log.e("TAG", "PermissionX: 得到权限")
+                } else {
+
+                    if (testDialog == null) {
+                        testDialog = TestDialog()
+                        testDialog!!.show(childFragmentManager, "ss")
+                    }
+
+                }
             }
+    }
+
+
+    var testDialog: TestDialog? = null
+
+    class TestDialog : DialogFragment() {
+        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            return AlertDialog.Builder(requireContext())
+                .setMessage("缺少权限")
+                .setNegativeButton("退出") { dialog, which ->
+                    requireActivity().finish()
+                }.create()
+        }
     }
 
     override fun onDestroyView() {
