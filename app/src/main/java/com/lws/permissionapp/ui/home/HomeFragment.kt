@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import com.lws.permissionapp.CustomCallback
+import com.lws.permissionapp.R
 import com.lws.permissionapp.databinding.FragmentHomeBinding
 import com.lws.permissionx.PermissionRequester
 import com.lws.permissionx.PermissionX
@@ -76,7 +77,13 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        PermissionX.getDefaultConfig().gravity = Gravity.BOTTOM
+        PermissionX.getDefaultConfig()
+            //设置权限解释弹窗AlertDialog主题(可选)
+            .setAlertDialogTheme(R.style.Theme_Material3_DayNight_Dialog_Alert)
+            //设置权限解释弹窗位置(可选)
+            .setGravity(Gravity.BOTTOM)
+            //设置权限解释自动Dismiss时机(可选)
+            .setAutoDismiss(Lifecycle.Event.ON_PAUSE)
     }
 
     override fun onStart() {
