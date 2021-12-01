@@ -36,4 +36,7 @@ public class PermissionX {
         return true;
     }
 
+    public static DefaultConfig getDefaultConfig() {
+        return DefaultConfig.getInstance();
+    }
 }

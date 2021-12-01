@@ -1,17 +1,19 @@
 package com.lws.permissionx;
 
 import android.content.Context;
-import android.content.DialogInterface;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.annotation.StyleRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+import androidx.core.util.Supplier;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Lifecycle;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -46,7 +48,7 @@ public abstract class PermissionBuilder<I, O> {
 
     }
 
-    private InvisibleFragment getInvisibleFragment() {
+    InvisibleFragment getInvisibleFragment() {
         Fragment fragment = getFragmentManager().findFragmentByTag(InvisibleFragment.TAG);
         if (fragment instanceof InvisibleFragment) {
             return (InvisibleFragment) fragment;
@@ -87,7 +89,7 @@ public abstract class PermissionBuilder<I, O> {
 
         } else {
             if (shouldShowRequestPermissionRationale() && rationale != null) {
-                rationale.showRationale();
+                rationale.show();
             } else {
                 getInvisibleFragment().request(this);
             }
@@ -124,7 +126,7 @@ public abstract class PermissionBuilder<I, O> {
         return null;
     }
 
-    private void cancelRationale() {
+    void onCancelRationale() {
         if (permission instanceof String) {
             permissionResultCallback.onActivityResult((O) (Boolean.valueOf(PermissionX.hasPermission(activity, (String) permission))));
         } else {
@@ -137,96 +139,44 @@ public abstract class PermissionBuilder<I, O> {
 
     }
 
-    /**
-     * 权限解释
-     *
-     * @param rationale 权限解释字符串资源
-     * @return PermissionBuilder
-     */
-    public PermissionRequester<I, O> onRequestRationale(@StringRes int rationale) {
-        return onRequestRationale(activity.getText(rationale));
 
-    }
-
-    /**
-     * 权限解释
-     *
-     * @param rationale 权限解释文字
-     * @return PermissionBuilder
-     */
-    public PermissionRequester<I, O> onRequestRationale(@NonNull CharSequence rationale) {
-        if (PermissionDialogConfig.isAlertDialogAndroidX()) {
-            this.rationale = () -> new AlertDialog.Builder(activity, PermissionDialogConfig.getDefaultDialogTheme())
-                    .setMessage(rationale)
-                    .setCancelable(false)
-                    .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                        getInvisibleFragment().request(this);
-                        dialog.dismiss();
-                    })
-                    .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
-                        cancelRationale();
-                        dialog.dismiss();
-                    })
-                    .show();
-        } else {
-            this.rationale = () -> new android.app.AlertDialog.Builder(activity, PermissionDialogConfig.getDefaultDialogTheme())
-                    .setMessage(rationale)
-                    .setCancelable(false)
-                    .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                        getInvisibleFragment().request(this);
-                        dialog.dismiss();
-                    })
-                    .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
-                        cancelRationale();
-                        dialog.dismiss();
-                    })
-                    .show();
-        }
+    public PermissionRequester<I, O> onRequestRationale(@NonNull CharSequence rationaleMsg, @StyleRes int alertDialogTheme, @Nullable Lifecycle.State autoDismiss) {
+        this.rationale = new RequestPermissionRationale(this, rationaleMsg, alertDialogTheme, autoDismiss);
         return new PermissionRequester<>(this);
     }
 
-    /**
-     * 权限解释
-     *
-     * @param dialogSupplier 提供androidX AlertDialog
-     * @return PermissionBuilder
-     */
-    public PermissionRequester<I, O> onRequestRationale(@NonNull AlertDialogSupplierX dialogSupplier) {
-        this.rationale = () -> {
-            AlertDialog dialog = dialogSupplier.getBuilder().create();
-            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> {
-                getInvisibleFragment().request(this);
-                dialog.dismiss();
-            });
-            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(v -> {
-                cancelRationale();
-                dialog.dismiss();
-            });
-            dialog.show();
-        };
+    public PermissionRequester<I, O> onRequestRationale(@NonNull CharSequence rationaleMsg, @StyleRes int alertDialogTheme) {
+        return onRequestRationale(rationaleMsg, alertDialogTheme, PermissionX.getDefaultConfig().getAutoDismiss());
+    }
+    public PermissionRequester<I, O> onRequestRationale(@NonNull CharSequence rationaleMsg,  @Nullable Lifecycle.State autoDismiss) {
+        return onRequestRationale(rationaleMsg, PermissionX.getDefaultConfig().getAlertDialogTheme(), autoDismiss);
+    }
+
+    public PermissionRequester<I, O> onRequestRationale(@NonNull CharSequence rationaleMsg) {
+        return onRequestRationale(rationaleMsg, PermissionX.getDefaultConfig().getAlertDialogTheme(), PermissionX.getDefaultConfig().getAutoDismiss());
+    }
+
+
+    public PermissionRequester<I, O> onRequestRationale(@StringRes int rationaleRes) {
+        return onRequestRationale(activity.getText(rationaleRes));
+    }
+
+    public PermissionRequester<I, O> onRequestRationale(@StringRes int rationaleRes, @StyleRes int alertDialogTheme) {
+        return onRequestRationale(activity.getText(rationaleRes), alertDialogTheme);
+    }
+
+    public PermissionRequester<I, O> onRequestRationale(@StringRes int rationaleRes, @StyleRes int alertDialogTheme, @Nullable Lifecycle.State autoDismiss) {
+        return onRequestRationale(activity.getText(rationaleRes), alertDialogTheme, autoDismiss);
+    }
+
+
+    public PermissionRequester<I, O> onRequestRationale(@NonNull Supplier<AlertDialog.Builder> alertDialogSupplier,@Nullable Lifecycle.State autoDismiss) {
+        this.rationale = new RequestPermissionRationale(this, alertDialogSupplier,autoDismiss);
         return new PermissionRequester<>(this);
     }
 
-    /**
-     * 权限解释
-     *
-     * @param dialogSupplier 提供android平台AlertDialog
-     * @return PermissionBuilder
-     */
-    public PermissionRequester<I, O> onRequestRationale(@NonNull AlertDialogSupplier dialogSupplier) {
-        this.rationale = () -> {
-            android.app.AlertDialog dialog = dialogSupplier.getBuilder().create();
-            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> {
-                getInvisibleFragment().request(this);
-                dialog.dismiss();
-            });
-            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(v -> {
-                cancelRationale();
-                dialog.dismiss();
-            });
-            dialog.show();
-        };
-        return new PermissionRequester<>(this);
+    public PermissionRequester<I, O> onRequestRationale(@NonNull Supplier<AlertDialog.Builder> alertDialogSupplier) {
+       return onRequestRationale(alertDialogSupplier,null);
     }
 
 
@@ -243,15 +193,6 @@ public abstract class PermissionBuilder<I, O> {
 
     void lockOrientation() {
         orientationHelper.lockOrientation();
-    }
-
-
-    private interface RequestPermissionRationale {
-
-        /**
-         * 向用户解释权限使用的目的
-         */
-        void showRationale();
     }
 
     static class SinglePermissionBuilderIml extends PermissionBuilder<String, Boolean> {
