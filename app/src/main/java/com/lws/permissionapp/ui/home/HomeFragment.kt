@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import com.lws.permissionapp.CustomCallback
 import com.lws.permissionapp.databinding.FragmentHomeBinding
@@ -67,14 +68,16 @@ class HomeFragment : Fragment() {
                     )
                 }
         }
+    }
 
-
+    override fun onStart() {
+        super.onStart()
         PermissionX.init(this)
             .permissions(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE
             )
-            .onRequestRationale("解释请求权限的原因")
+            .onRequestRationale("解释请求权限的原因", Lifecycle.State.STARTED)
             .request { result ->
                 Log.e(
                     "ssss",
