@@ -12,18 +12,18 @@ import androidx.lifecycle.LifecycleOwner;
 public class RequestPermissionRationale implements Supplier<AlertDialog> {
     private final Supplier<AlertDialog.Builder> dialogSupplier;
     private final PermissionBuilder permissionBuilder;
-    private AlertDialog dialog = null;
     @Nullable
-    private final Lifecycle.State autoDismiss;
+    private final Lifecycle.Event autoDismiss;
+    private AlertDialog dialog = null;
 
 
-    RequestPermissionRationale(PermissionBuilder permissionBuilder, Supplier<AlertDialog.Builder> dialogSupplier, @Nullable Lifecycle.State autoDismiss) {
+    RequestPermissionRationale(PermissionBuilder permissionBuilder, Supplier<AlertDialog.Builder> dialogSupplier, @Nullable Lifecycle.Event autoDismiss) {
         this.permissionBuilder = permissionBuilder;
         this.dialogSupplier = dialogSupplier;
         this.autoDismiss = autoDismiss;
     }
 
-    RequestPermissionRationale(PermissionBuilder permissionBuilder, CharSequence message, @StyleRes int alertDialogTheme, @Nullable Lifecycle.State autoDismiss) {
+    RequestPermissionRationale(PermissionBuilder permissionBuilder, CharSequence message, @StyleRes int alertDialogTheme, @Nullable Lifecycle.Event autoDismiss) {
         this.permissionBuilder = permissionBuilder;
         this.dialogSupplier = () -> new AlertDialog.Builder(permissionBuilder.activity, alertDialogTheme)
                 .setMessage(message);
@@ -86,7 +86,7 @@ public class RequestPermissionRationale implements Supplier<AlertDialog> {
 
         @Override
         public void onStateChanged(@NonNull LifecycleOwner source, @NonNull Lifecycle.Event event) {
-            if (source.getLifecycle().getCurrentState().compareTo(rationale.autoDismiss) <= 0) {
+            if (event.compareTo(Lifecycle.Event.ON_PAUSE) >= 0) {
                 rationale.dismiss();
                 source.getLifecycle().removeObserver(this);
             }

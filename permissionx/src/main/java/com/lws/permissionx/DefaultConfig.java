@@ -15,9 +15,11 @@ import java.lang.annotation.RetentionPolicy;
 public class DefaultConfig {
 
 
-    private static class SingleHolder {
-        static DefaultConfig defaultConfig = new DefaultConfig();
-    }
+    @StyleRes
+    private int alertDialogTheme;
+    @GravityFlags
+    private int gravity = Gravity.CENTER;
+    private Lifecycle.Event autoDismiss = null;
 
     private DefaultConfig() {
     }
@@ -26,19 +28,11 @@ public class DefaultConfig {
         return SingleHolder.defaultConfig;
     }
 
-    @StyleRes
-    private int alertDialogTheme;
-
-    @GravityFlags
-    private int gravity = Gravity.CENTER;
-
-    private Lifecycle.State autoDismiss = null;
-
-    public Lifecycle.State getAutoDismiss() {
+    public Lifecycle.Event getAutoDismiss() {
         return autoDismiss;
     }
 
-    public DefaultConfig setAutoDismiss(Lifecycle.State autoDismiss) {
+    public DefaultConfig setAutoDismiss(Lifecycle.Event autoDismiss) {
         this.autoDismiss = autoDismiss;
         return this;
     }
@@ -84,5 +78,9 @@ public class DefaultConfig {
             Gravity.NO_GRAVITY
     })
     public @interface GravityFlags {
+    }
+
+    private static class SingleHolder {
+        static DefaultConfig defaultConfig = new DefaultConfig();
     }
 }
