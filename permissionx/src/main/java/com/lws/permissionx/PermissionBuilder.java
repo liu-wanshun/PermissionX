@@ -13,7 +13,6 @@ import androidx.core.util.Supplier;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Lifecycle;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -139,22 +138,13 @@ public abstract class PermissionBuilder<I, O> {
 
     }
 
-
-    public PermissionRequester<I, O> onRequestRationale(@NonNull CharSequence rationaleMsg, @StyleRes int alertDialogTheme, @Nullable Lifecycle.Event autoDismiss) {
-        this.rationale = new RequestPermissionRationale(this, rationaleMsg, alertDialogTheme, autoDismiss);
+    public PermissionRequester<I, O> onRequestRationale(@NonNull CharSequence rationaleMsg, @StyleRes int alertDialogTheme) {
+        this.rationale = new RequestPermissionRationale(this, rationaleMsg, alertDialogTheme);
         return new PermissionRequester<>(this);
     }
 
-    public PermissionRequester<I, O> onRequestRationale(@NonNull CharSequence rationaleMsg, @StyleRes int alertDialogTheme) {
-        return onRequestRationale(rationaleMsg, alertDialogTheme, PermissionX.getDefaultConfig().getAutoDismiss());
-    }
-
-    public PermissionRequester<I, O> onRequestRationale(@NonNull CharSequence rationaleMsg, @Nullable Lifecycle.Event autoDismiss) {
-        return onRequestRationale(rationaleMsg, PermissionX.getDefaultConfig().getAlertDialogTheme(), autoDismiss);
-    }
-
     public PermissionRequester<I, O> onRequestRationale(@NonNull CharSequence rationaleMsg) {
-        return onRequestRationale(rationaleMsg, PermissionX.getDefaultConfig().getAlertDialogTheme(), PermissionX.getDefaultConfig().getAutoDismiss());
+        return onRequestRationale(rationaleMsg, PermissionX.getDefaultConfig().getAlertDialogTheme());
     }
 
 
@@ -166,18 +156,9 @@ public abstract class PermissionBuilder<I, O> {
         return onRequestRationale(activity.getText(rationaleRes), alertDialogTheme);
     }
 
-    public PermissionRequester<I, O> onRequestRationale(@StringRes int rationaleRes, @StyleRes int alertDialogTheme, @Nullable Lifecycle.Event autoDismiss) {
-        return onRequestRationale(activity.getText(rationaleRes), alertDialogTheme, autoDismiss);
-    }
-
-
-    public PermissionRequester<I, O> onRequestRationale(@NonNull Supplier<AlertDialog.Builder> alertDialogSupplier, @Nullable Lifecycle.Event autoDismiss) {
-        this.rationale = new RequestPermissionRationale(this, alertDialogSupplier, autoDismiss);
-        return new PermissionRequester<>(this);
-    }
 
     public PermissionRequester<I, O> onRequestRationale(@NonNull Supplier<AlertDialog.Builder> alertDialogSupplier) {
-        return onRequestRationale(alertDialogSupplier, null);
+        return onRequestRationale(alertDialogSupplier);
     }
 
 

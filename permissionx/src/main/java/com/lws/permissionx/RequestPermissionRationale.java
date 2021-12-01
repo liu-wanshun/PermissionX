@@ -1,42 +1,32 @@
 package com.lws.permissionx;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.util.Supplier;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleEventObserver;
-import androidx.lifecycle.LifecycleOwner;
 
 public class RequestPermissionRationale implements Supplier<AlertDialog> {
     private final Supplier<AlertDialog.Builder> dialogSupplier;
     private final PermissionBuilder permissionBuilder;
-    @Nullable
-    private final Lifecycle.Event autoDismiss;
+
     private AlertDialog dialog = null;
 
 
-    RequestPermissionRationale(PermissionBuilder permissionBuilder, Supplier<AlertDialog.Builder> dialogSupplier, @Nullable Lifecycle.Event autoDismiss) {
+    RequestPermissionRationale(PermissionBuilder permissionBuilder, Supplier<AlertDialog.Builder> dialogSupplier) {
         this.permissionBuilder = permissionBuilder;
         this.dialogSupplier = dialogSupplier;
-        this.autoDismiss = autoDismiss;
     }
 
-    RequestPermissionRationale(PermissionBuilder permissionBuilder, CharSequence message, @StyleRes int alertDialogTheme, @Nullable Lifecycle.Event autoDismiss) {
+    RequestPermissionRationale(PermissionBuilder permissionBuilder, CharSequence message, @StyleRes int alertDialogTheme) {
         this.permissionBuilder = permissionBuilder;
         this.dialogSupplier = () -> new AlertDialog.Builder(permissionBuilder.activity, alertDialogTheme)
                 .setMessage(message);
-        this.autoDismiss = autoDismiss;
     }
 
 
     void show() {
         get().show();
         get().getWindow().setGravity(PermissionX.getDefaultConfig().getGravity());
-        if (autoDismiss != null) {
-            new AutoDismissObserver(this).bind(permissionBuilder.activity);
-        }
 
     }
 
@@ -64,32 +54,5 @@ public class RequestPermissionRationale implements Supplier<AlertDialog> {
                     .create();
         }
         return dialog;
-    }
-
-    static class AutoDismissObserver implements LifecycleEventObserver {
-
-
-        private final RequestPermissionRationale rationale;
-
-
-        public AutoDismissObserver(RequestPermissionRationale rationale) {
-            this.rationale = rationale;
-
-        }
-
-        void bind(LifecycleOwner lifecycleOwner) {
-            rationale.get().setOnDismissListener(dialog -> {
-                lifecycleOwner.getLifecycle().removeObserver(this);
-            });
-            lifecycleOwner.getLifecycle().addObserver(this);
-        }
-
-        @Override
-        public void onStateChanged(@NonNull LifecycleOwner source, @NonNull Lifecycle.Event event) {
-            if (event.compareTo(Lifecycle.Event.ON_PAUSE) >= 0) {
-                rationale.dismiss();
-                source.getLifecycle().removeObserver(this);
-            }
-        }
     }
 }
