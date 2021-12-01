@@ -15,11 +15,15 @@ import java.lang.annotation.RetentionPolicy;
 public class DefaultConfig {
 
 
+    private static class SingleHolder {
+        static DefaultConfig defaultConfig = new DefaultConfig();
+    }
+
     private DefaultConfig() {
     }
 
     static DefaultConfig getInstance() {
-        return new DefaultConfig();
+        return SingleHolder.defaultConfig;
     }
 
     @StyleRes

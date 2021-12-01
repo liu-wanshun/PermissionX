@@ -17,7 +17,7 @@ public class RequestPermissionRationale implements Supplier<AlertDialog> {
     private final Lifecycle.State autoDismiss;
 
 
-    RequestPermissionRationale(PermissionBuilder permissionBuilder, Supplier<AlertDialog.Builder> dialogSupplier,@Nullable Lifecycle.State autoDismiss) {
+    RequestPermissionRationale(PermissionBuilder permissionBuilder, Supplier<AlertDialog.Builder> dialogSupplier, @Nullable Lifecycle.State autoDismiss) {
         this.permissionBuilder = permissionBuilder;
         this.dialogSupplier = dialogSupplier;
         this.autoDismiss = autoDismiss;
@@ -32,8 +32,8 @@ public class RequestPermissionRationale implements Supplier<AlertDialog> {
 
 
     void show() {
-        get().getWindow().setGravity(PermissionX.getDefaultConfig().getGravity());
         get().show();
+        get().getWindow().setGravity(PermissionX.getDefaultConfig().getGravity());
         if (autoDismiss != null) {
             new AutoDismissObserver(this).bind(permissionBuilder.activity);
         }
