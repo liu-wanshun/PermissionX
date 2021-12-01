@@ -4,7 +4,6 @@ import android.view.Gravity;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.StyleRes;
-import androidx.lifecycle.Lifecycle;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -19,7 +18,6 @@ public class DefaultConfig {
     private int alertDialogTheme;
     @GravityFlags
     private int gravity = Gravity.CENTER;
-    private Lifecycle.Event autoDismiss = null;
 
     private DefaultConfig() {
     }
@@ -28,14 +26,6 @@ public class DefaultConfig {
         return SingleHolder.defaultConfig;
     }
 
-    public Lifecycle.Event getAutoDismiss() {
-        return autoDismiss;
-    }
-
-    public DefaultConfig setAutoDismiss(Lifecycle.Event autoDismiss) {
-        this.autoDismiss = autoDismiss;
-        return this;
-    }
 
     @StyleRes
     public int getAlertDialogTheme() {

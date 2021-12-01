@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import com.lws.permissionapp.CustomCallback
 import com.lws.permissionapp.R
@@ -78,23 +77,23 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         PermissionX.getDefaultConfig()
-            //设置权限解释弹窗AlertDialog主题(可选)
-            .setAlertDialogTheme(R.style.Theme_Material3_DayNight_Dialog_Alert)
-            //设置权限解释弹窗位置(可选)
-            .setGravity(Gravity.BOTTOM)
-            //设置权限解释自动Dismiss时机(可选)
-            .setAutoDismiss(Lifecycle.Event.ON_PAUSE)
+            //设置权限解释弹窗AlertDialog主题(可选,默认为宿主Activity的主题中的AlertDialogTheme)
+            .setAlertDialogTheme(R.style.Theme_Material3_DayNight_Dialog_Alert).gravity = Gravity.BOTTOM
     }
 
+
+    var isInRequest = false
     override fun onStart() {
         super.onStart()
-        if (testDialog != null) {
+        if (testDialog != null || isInRequest) {
             return
         }
+        isInRequest = true
         PermissionX.init(this)
             .permission(Manifest.permission.CAMERA)
-            .onRequestRationale("解释请求权限的原因,ON_PAUSE时自动Dismiss", Lifecycle.Event.ON_PAUSE)
+            .onRequestRationale("解释请求权限的原因,ON_PAUSE时自动Dismiss")
             .request {
+                isInRequest = false
                 if (it) {
                     testDialog = null
                     Log.e("TAG", "PermissionX: 得到权限")

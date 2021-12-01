@@ -18,7 +18,7 @@ allprojects {
 ```groovy
 dependencies {
     ...
-    implementation 'com.gitee.liu_wanshun:PermissionX:0.0.4'
+    implementation 'com.gitee.liu_wanshun:PermissionX:0.0.5'
     //需要AndroidX依赖
 }
 ```
@@ -56,13 +56,11 @@ dependencies {
 3. 自定义设置
 
 ```java
-        PermissionX.getDefaultConfig()
-            //设置权限解释弹窗AlertDialog主题(可选)
+    PermissionX.getDefaultConfig()
+            //设置权限解释弹窗AlertDialog主题(可选,默认为宿主Activity的主题中的AlertDialogTheme)
             .setAlertDialogTheme(R.style.Theme_Material3_DayNight_Dialog_Alert)
-            //设置权限解释弹窗位置(可选)
+            //设置权限解释弹窗位置(可选,默认为Gravity.CENTER)
             .setGravity(Gravity.BOTTOM)
-            //设置权限解释自动Dismiss时机(可选)
-            .setAutoDismiss(Lifecycle.Event.ON_PAUSE);
 
 
 	//使用自定义Callback
