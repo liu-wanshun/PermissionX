@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Permission</string>
+    <string name="app_name">PermissionX</string>
     <string name="title_activity_bottom_nav">BottomNavActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
