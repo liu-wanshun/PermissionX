@@ -18,7 +18,7 @@ allprojects {
 ```groovy
 dependencies {
     ...
-    implementation 'com.gitee.liu_wanshun:PermissionX:0.0.5'
+    implementation 'com.gitee.liu_wanshun:PermissionX:0.0.6'
     //需要AndroidX依赖
 }
 ```
@@ -58,20 +58,27 @@ dependencies {
 ```java
     PermissionX.getDefaultConfig()
             //设置权限解释弹窗AlertDialog主题(可选,默认为宿主Activity的主题中的AlertDialogTheme)
+      			//可在主题中自定义布局界面
             .setAlertDialogTheme(R.style.Theme_Material3_DayNight_Dialog_Alert)
             //设置权限解释弹窗位置(可选,默认为Gravity.CENTER)
             .setGravity(Gravity.BOTTOM)
 
 
-	//使用自定义Callback
-	PermissionX.init(this)
-            .permission(Manifest.permission.CAMERA)
-  	    .onRequestRationale("解释请求权限的原因")
-  	    //CustomCallback为自定义Callback，参考demo
-  	    .transform(CustomCallback::new)
-  	    .request((Granted, denyForever) -> {
-    	         Log.e("ssss", "onResult: " + Granted + "  " + denyForever);
-   	    });
+	//拒绝权限处理
+	        PermissionX.init(this)
+                .permission(Manifest.permission.CAMERA)
+                .onRequestRationale("解释请求权限的原因")
+                //在拒绝权限时进行解释（可选）
+                .onDeniedRationale("拒绝了权限，进行解释，同意后将再次请求权限", () -> {
+                    Log.e("ssss", "不认可拒绝解释，可以退出");
+                })
+                //在永久拒绝权限时进行解释（可选）
+                .onDeniedForeverRationale("永久拒绝权限解释，同意将跳转设置界面让用户自己开启权限", () -> {
+                    Log.e("ssss", "不认可永久拒绝解释,可以退出");
+                })
+                .request(result -> {
+                    Log.e("ssss", "onResult: $result");
+                });
 
 ```
 
