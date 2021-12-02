@@ -59,7 +59,7 @@ public abstract class PermissionBuilder<I, O> {
 
     void handleResult(O result) {
         permissionResultCallback.onActivityResult(result);
-
+        PermissionX.inRequesting = false;
         //处理拒绝的情况
         if (!isGranted(activity, permission)) {
             if (shouldShowPermissionRationale()) {
@@ -94,7 +94,7 @@ public abstract class PermissionBuilder<I, O> {
             }
 
         } else {
-            if (shouldShowPermissionRationale() && rationaleController.hasRequestRationale()) {
+            if (shouldShowPermissionRationale() && rationaleController.canShowRequestRationale()) {
                 rationaleController.showRequestRationale();
             } else {
                 getInvisibleFragment().request(this);
@@ -180,7 +180,7 @@ public abstract class PermissionBuilder<I, O> {
     /**
      * @param rationaleRes     用户拒绝权限，进行解释，同意将再次请求权限
      * @param negativeListener 用户不认可此解释时,执行此操作
-     * @return
+     * @return this
      */
     @CheckResult
     public PermissionBuilder<I, O> onDeniedRationale(@StringRes int rationaleRes, @NonNull Runnable negativeListener) {
@@ -190,7 +190,7 @@ public abstract class PermissionBuilder<I, O> {
     /**
      * @param deniedForeverRationale 用户永久拒绝权限，进行解释，同意将跳转设置界面让用户自己开启权限
      * @param negativeListener       用户不认可此解释时,执行此操作
-     * @return
+     * @return this
      */
     @CheckResult
     public PermissionBuilder<I, O> onDeniedForeverRationale(@NonNull CharSequence deniedForeverRationale, @NonNull Runnable negativeListener) {
@@ -203,7 +203,7 @@ public abstract class PermissionBuilder<I, O> {
     /**
      * @param rationaleRes     用户永久拒绝权限，进行解释，同意将跳转设置界面让用户自己开启权限
      * @param negativeListener 用户不认可此解释时,执行此操作
-     * @return
+     * @return this
      */
     @CheckResult
     public PermissionBuilder<I, O> onDeniedForeverRationale(@StringRes int rationaleRes, @NonNull Runnable negativeListener) {
