@@ -59,6 +59,23 @@ class HomeFragment : Fragment() {
         }
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        //测试是否重复请求
+        PermissionX.init(this)
+            .permission(Manifest.permission.CAMERA)
+            .onRequestRationale("解释请求权限的原因")
+            .onDeniedRationale("拒绝了权限，进行解释，同意后将再次请求权限") {
+                Log.e("ssss", "不认可拒绝解释，可以退出")
+            }
+            .onDeniedForeverRationale("永久拒绝了权限，进行解释，同意将跳转设置界面让用户自己开启权限") {
+                Log.e("ssss", "不认可永久拒绝解释,可以退出")
+            }
+            .request { result: Boolean ->
+                Log.e("ssss", "onResult: $result")
+            }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         PermissionX.getDefaultConfig().apply {

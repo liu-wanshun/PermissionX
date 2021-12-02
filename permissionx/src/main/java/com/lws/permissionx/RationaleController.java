@@ -26,16 +26,16 @@ class RationaleController<I, O> {
         this.permissionBuilder = permissionBuilder;
     }
 
-    boolean hasRequestRationale() {
-        return requestRationale != null;
+    boolean canShowRequestRationale() {
+        return requestRationale != null && !PermissionX.inRequesting;
     }
 
-    boolean hasDeniedRationale() {
-        return deniedRationale != null && deniedRationaleNegativeListener != null;
+    boolean canShowDeniedRationale() {
+        return deniedRationale != null && deniedRationaleNegativeListener != null && !PermissionX.inRequesting;
     }
 
-    boolean hasDeniedForeverRationale() {
-        return deniedForeverRationale != null && deniedForeverRationaleNegativeListener != null;
+    boolean canShowDeniedForeverRationale() {
+        return deniedForeverRationale != null && deniedForeverRationaleNegativeListener != null && !PermissionX.inRequesting;
     }
 
 
@@ -50,7 +50,7 @@ class RationaleController<I, O> {
     }
 
     void showDeniedRationale() {
-        if (!hasDeniedRationale()) {
+        if (!canShowDeniedRationale()) {
             return;
         }
         AlertDialog rationaleDialog = new AlertDialog.Builder(permissionBuilder.activity, PermissionX.getDefaultConfig().getAlertDialogTheme())
@@ -63,7 +63,7 @@ class RationaleController<I, O> {
     }
 
     void showDeniedForeverRationale() {
-        if (!hasDeniedForeverRationale()) {
+        if (!canShowDeniedForeverRationale()) {
             return;
         }
         AlertDialog rationaleDialog = new AlertDialog.Builder(permissionBuilder.activity, PermissionX.getDefaultConfig().getAlertDialogTheme())
@@ -77,7 +77,9 @@ class RationaleController<I, O> {
 
 
     private void show(AlertDialog alertDialog) {
+        PermissionX.inRequesting = true;
         alertDialog.show();
+        alertDialog.setOnDismissListener(dialog -> PermissionX.inRequesting = false);
         alertDialog.getWindow().setGravity(PermissionX.getDefaultConfig().getGravity());
     }
 
