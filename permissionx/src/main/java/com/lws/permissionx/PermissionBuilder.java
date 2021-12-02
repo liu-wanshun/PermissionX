@@ -3,13 +3,11 @@ package com.lws.permissionx;
 import android.content.Context;
 
 import androidx.activity.result.ActivityResultCallback;
+import androidx.annotation.CheckResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.annotation.StyleRes;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
-import androidx.core.util.Supplier;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -22,8 +20,8 @@ import java.util.Map;
  */
 public abstract class PermissionBuilder<I, O> {
 
+    final RationaleController<I, O> rationaleController = new RationaleController<>(this);
     private final I permission;
-    protected RequestPermissionRationale rationale;
     @NonNull
     FragmentActivity activity;
     @Nullable
@@ -59,20 +57,29 @@ public abstract class PermissionBuilder<I, O> {
         }
     }
 
-    ActivityResultCallback<O> getPermissionResultCallback() {
-        return permissionResultCallback;
+    void handleResult(O result) {
+        permissionResultCallback.onActivityResult(result);
+
+        //处理拒绝的情况
+        if (!isGranted(activity, permission)) {
+            if (shouldShowPermissionRationale()) {
+                rationaleController.showDeniedRationale();
+            } else {
+                rationaleController.showDeniedForeverRationale();
+            }
+        }
     }
 
     I getPermission() {
         return permission;
     }
 
+
     /**
-     * 应使用onRequestRationale解释权限
+     * 建议请求权限前进行解释权限使用原因
      *
-     * @param permissionResult 权限结果回调
+     * @param permissionResult 请求权限的结果回调
      */
-    @Deprecated
     public void request(@NonNull ActivityResultCallback<O> permissionResult) {
         this.permissionResultCallback = permissionResult;
         if (isGranted(activity, permission)) {
@@ -87,8 +94,8 @@ public abstract class PermissionBuilder<I, O> {
             }
 
         } else {
-            if (shouldShowRequestPermissionRationale() && rationale != null) {
-                rationale.show();
+            if (shouldShowPermissionRationale() && rationaleController.hasRequestRationale()) {
+                rationaleController.showRequestRationale();
             } else {
                 getInvisibleFragment().request(this);
             }
@@ -105,7 +112,7 @@ public abstract class PermissionBuilder<I, O> {
         }
     }
 
-    private boolean shouldShowRequestPermissionRationale() {
+    private boolean shouldShowPermissionRationale() {
         String firstDeniedPermission;
         if (permission instanceof String) {
             firstDeniedPermission = (String) permission;
@@ -138,27 +145,69 @@ public abstract class PermissionBuilder<I, O> {
 
     }
 
-    public PermissionRequester<I, O> onRequestRationale(@NonNull CharSequence rationaleMsg, @StyleRes int alertDialogTheme) {
-        this.rationale = new RequestPermissionRationale(this, rationaleMsg, alertDialogTheme);
-        return new PermissionRequester<>(this);
+    /**
+     * @param rationaleMsg 解释使用权限的原因，同意后将进行请求权限
+     * @return this
+     */
+    @CheckResult
+    public PermissionBuilder<I, O> onRequestRationale(@NonNull CharSequence rationaleMsg) {
+        rationaleController.requestRationale = rationaleMsg;
+        return this;
     }
 
-    public PermissionRequester<I, O> onRequestRationale(@NonNull CharSequence rationaleMsg) {
-        return onRequestRationale(rationaleMsg, PermissionX.getDefaultConfig().getAlertDialogTheme());
-    }
-
-
-    public PermissionRequester<I, O> onRequestRationale(@StringRes int rationaleRes) {
+    /**
+     * @param rationaleRes 解释使用权限的原因，同意后将进行请求权限
+     * @return this
+     */
+    @CheckResult
+    public PermissionBuilder<I, O> onRequestRationale(@StringRes int rationaleRes) {
         return onRequestRationale(activity.getText(rationaleRes));
     }
 
-    public PermissionRequester<I, O> onRequestRationale(@StringRes int rationaleRes, @StyleRes int alertDialogTheme) {
-        return onRequestRationale(activity.getText(rationaleRes), alertDialogTheme);
+    /**
+     * @param deniedRationale  用户拒绝权限，进行解释，同意将再次请求权限
+     * @param negativeListener 用户不认可此解释时,执行此操作
+     * @return this
+     */
+    @CheckResult
+    public PermissionBuilder<I, O> onDeniedRationale(@NonNull CharSequence deniedRationale, @NonNull Runnable negativeListener) {
+        rationaleController.deniedRationale = deniedRationale;
+        rationaleController.deniedRationaleNegativeListener = negativeListener;
+        return this;
     }
 
 
-    public PermissionRequester<I, O> onRequestRationale(@NonNull Supplier<AlertDialog.Builder> alertDialogSupplier) {
-        return onRequestRationale(alertDialogSupplier);
+    /**
+     * @param rationaleRes     用户拒绝权限，进行解释，同意将再次请求权限
+     * @param negativeListener 用户不认可此解释时,执行此操作
+     * @return
+     */
+    @CheckResult
+    public PermissionBuilder<I, O> onDeniedRationale(@StringRes int rationaleRes, @NonNull Runnable negativeListener) {
+        return onDeniedRationale(activity.getText(rationaleRes), negativeListener);
+    }
+
+    /**
+     * @param deniedForeverRationale 用户永久拒绝权限，进行解释，同意将跳转设置界面让用户自己开启权限
+     * @param negativeListener       用户不认可此解释时,执行此操作
+     * @return
+     */
+    @CheckResult
+    public PermissionBuilder<I, O> onDeniedForeverRationale(@NonNull CharSequence deniedForeverRationale, @NonNull Runnable negativeListener) {
+        rationaleController.deniedForeverRationale = deniedForeverRationale;
+        rationaleController.deniedForeverRationaleNegativeListener = negativeListener;
+        return this;
+    }
+
+
+    /**
+     * @param rationaleRes     用户永久拒绝权限，进行解释，同意将跳转设置界面让用户自己开启权限
+     * @param negativeListener 用户不认可此解释时,执行此操作
+     * @return
+     */
+    @CheckResult
+    public PermissionBuilder<I, O> onDeniedForeverRationale(@StringRes int rationaleRes, @NonNull Runnable negativeListener) {
+        return onDeniedForeverRationale(activity.getText(rationaleRes), negativeListener);
     }
 
 

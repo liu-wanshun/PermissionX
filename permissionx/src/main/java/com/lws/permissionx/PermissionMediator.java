@@ -1,5 +1,6 @@
 package com.lws.permissionx;
 
+import androidx.annotation.CheckResult;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -30,6 +31,7 @@ public class PermissionMediator {
      * @param permission 需要申请的权限
      * @return PermissionBuilder
      */
+    @CheckResult
     public PermissionBuilder<String, Boolean> permission(@NonNull String permission) {
         return new PermissionBuilder.SinglePermissionBuilderIml(activity, fragment, permission);
     }
@@ -40,6 +42,7 @@ public class PermissionMediator {
      * @param permissions 需要申请的权限
      * @return MultiplePermissionBuilder
      */
+    @CheckResult
     public PermissionBuilder<String[], Map<String, Boolean>> permissions(@NonNull String... permissions) {
         return new PermissionBuilder.MultiplePermissionBuilderIml(activity, fragment, permissions);
     }
