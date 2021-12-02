@@ -18,7 +18,7 @@ public class InvisibleFragment extends Fragment {
 
     private <O> void handleResult(O result) {
         if (permissionBuilder != null) {
-            permissionBuilder.getPermissionResultCallback().onActivityResult(result);
+            permissionBuilder.handleResult(result);
             permissionBuilder.removeInvisibleFragment();
             permissionBuilder.restoreOrientation();
         }

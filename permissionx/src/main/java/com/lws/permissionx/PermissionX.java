@@ -2,6 +2,7 @@ package com.lws.permissionx;
 
 import android.content.Context;
 
+import androidx.annotation.CheckResult;
 import androidx.annotation.NonNull;
 import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
@@ -12,10 +13,12 @@ import androidx.fragment.app.FragmentActivity;
  */
 public class PermissionX {
 
+    @CheckResult
     public static PermissionMediator init(@NonNull FragmentActivity activity) {
         return new PermissionMediator(activity);
     }
 
+    @CheckResult
     public static PermissionMediator init(@NonNull Fragment fragment) {
         return new PermissionMediator(fragment);
     }
