@@ -14,9 +14,9 @@ import androidx.fragment.app.FragmentActivity;
 public class PermissionX {
 
     /**
-     * 限制同一时间最多有一个权限请求/弹框
+     * 尝试限制同一时间最多有一个权限请求/弹框
      */
-    static boolean inRequesting;
+    static boolean hasDialog;
 
     @CheckResult
     public static PermissionMediator init(@NonNull FragmentActivity activity) {

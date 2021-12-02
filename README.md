@@ -2,7 +2,11 @@
 
 [![](https://jitpack.io/v/com.gitee.liu_wanshun/PermissionX.svg)](https://jitpack.io/#com.gitee.liu_wanshun/PermissionX)
 
-**Step 1.** Add it in your root build.gradle at the end of repositories:
+​	一个简单易用的Android 运行时权限请求框架。
+
+#### 导入依赖
+
+**1.** 在项目根目录下的 `build.gradle` 文件中加入
 
 ```groovy
 allprojects {
@@ -13,21 +17,18 @@ allprojects {
 }
 ```
 
-**Step 2.** Add the dependency
+**2.** 在 app 模块`build.gradle`添加依赖
 
 ```groovy
 dependencies {
-    ...
-    implementation 'com.gitee.liu_wanshun:PermissionX:0.0.6'
+    implementation 'com.gitee.liu_wanshun:PermissionX:0.0.7'
     //需要AndroidX依赖
 }
 ```
 
-(Please replace `Tag`  with the latest version numbers: [![](https://jitpack.io/v/com.gitee.liu_wanshun/PermissionX.svg)](https://jitpack.io/#com.gitee.liu_wanshun/PermissionX)
 
 
-
-## 功能介绍
+#### 功能介绍
 
 1. 单个权限请求
 
@@ -64,7 +65,7 @@ dependencies {
             .setGravity(Gravity.BOTTOM)
 
 
-	//拒绝权限处理
+					//拒绝权限处理
 	        PermissionX.init(this)
                 .permission(Manifest.permission.CAMERA)
                 .onRequestRationale("解释请求权限的原因")

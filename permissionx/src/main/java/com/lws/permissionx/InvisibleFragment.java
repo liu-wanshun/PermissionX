@@ -25,10 +25,6 @@ public class InvisibleFragment extends Fragment {
     }
 
     public <I, O> void request(PermissionBuilder<I, O> permissionBuilder) {
-        if (PermissionX.inRequesting) {
-            return;
-        }
-        PermissionX.inRequesting = true;
         this.permissionBuilder = permissionBuilder;
         this.permissionBuilder.lockOrientation();
 
