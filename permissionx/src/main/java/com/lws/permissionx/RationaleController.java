@@ -27,15 +27,15 @@ class RationaleController<I, O> {
     }
 
     boolean canShowRequestRationale() {
-        return requestRationale != null && !PermissionX.inRequesting;
+        return requestRationale != null;
     }
 
     boolean canShowDeniedRationale() {
-        return deniedRationale != null && deniedRationaleNegativeListener != null && !PermissionX.inRequesting;
+        return deniedRationale != null && deniedRationaleNegativeListener != null;
     }
 
     boolean canShowDeniedForeverRationale() {
-        return deniedForeverRationale != null && deniedForeverRationaleNegativeListener != null && !PermissionX.inRequesting;
+        return deniedForeverRationale != null && deniedForeverRationaleNegativeListener != null;
     }
 
 
@@ -77,9 +77,9 @@ class RationaleController<I, O> {
 
 
     private void show(AlertDialog alertDialog) {
-        PermissionX.inRequesting = true;
+        PermissionX.hasDialog=true;
         alertDialog.show();
-        alertDialog.setOnDismissListener(dialog -> PermissionX.inRequesting = false);
+        alertDialog.setOnDismissListener(dialog -> PermissionX.hasDialog = false);
         alertDialog.getWindow().setGravity(PermissionX.getDefaultConfig().getGravity());
     }
 
