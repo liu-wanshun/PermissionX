@@ -21,7 +21,7 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.gitee.liu_wanshun:PermissionX:0.0.8'
+    implementation 'com.gitee.liu_wanshun:PermissionX:0.0.9'
     //需要AndroidX依赖
 }
 ```
