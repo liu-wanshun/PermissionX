@@ -12,7 +12,7 @@
 
    <style name="MyAlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
        <item name="alertDialogStyle">@style/MyAlertDialogStyle</item>
-       <item name="dialogCornerRadius">4dp</item>
+       <item name="dialogCornerRadius">16dp</item>
 <!--       <item name="colorBackgroundFloating">@color/design_default_color_error</item>-->
 
 <!--       <item name="android:windowBackground">@drawable/abc_dialog_material_background</item>-->
