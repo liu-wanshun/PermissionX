@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/parentPanel"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -22,8 +21,8 @@
             android:gravity="center_vertical|start|left"
             android:orientation="horizontal"
             android:paddingLeft="?attr/dialogPreferredPadding"
-            android:paddingRight="?attr/dialogPreferredPadding"
-            android:paddingTop="@dimen/abc_dialog_padding_top_material">
+            android:paddingTop="@dimen/abc_dialog_padding_top_material"
+            android:paddingRight="?attr/dialogPreferredPadding">
 
             <ImageView
                 android:id="@android:id/icon"
@@ -32,17 +31,17 @@
                 android:layout_marginEnd="8dip"
                 android:layout_marginRight="8dip"
                 android:scaleType="fitCenter"
-                android:src="@null"/>
+                android:src="@null" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/alertTitle"
                 style="?android:attr/windowTitleStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
+                android:layout_gravity="center"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:textAlignment="viewStart"/>
+                android:textAlignment="center" />
 
         </LinearLayout>
 
@@ -50,7 +49,7 @@
             android:id="@+id/titleDividerNoCustom"
             android:layout_width="match_parent"
             android:layout_height="@dimen/abc_dialog_title_divider_material"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </LinearLayout>
 
     <FrameLayout
@@ -59,17 +58,19 @@
         android:layout_height="wrap_content"
         android:minHeight="48dp">
 
-        <View android:id="@+id/scrollIndicatorUp"
-              android:layout_width="match_parent"
-              android:layout_height="1dp"
-              android:layout_gravity="top"
-              android:background="?attr/colorControlHighlight"
-              android:visibility="gone"/>
+        <View
+            android:id="@+id/scrollIndicatorUp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="top"
+            android:background="?attr/colorControlHighlight"
+            android:visibility="gone" />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:clipToPadding="false">
 
             <LinearLayout
@@ -81,7 +82,7 @@
                     android:id="@+id/textSpacerNoTitle"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/abc_dialog_padding_top_material"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@android:id/message"
@@ -89,22 +90,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="?attr/dialogPreferredPadding"
-                    android:paddingRight="?attr/dialogPreferredPadding"/>
+                    android:paddingRight="?attr/dialogPreferredPadding" />
 
                 <android.widget.Space
                     android:id="@+id/textSpacerNoButtons"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/abc_dialog_padding_top_material"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
-        <View android:id="@+id/scrollIndicatorDown"
-              android:layout_width="match_parent"
-              android:layout_height="1dp"
-              android:layout_gravity="bottom"
-              android:background="?attr/colorControlHighlight"
-              android:visibility="gone"/>
+        <View
+            android:id="@+id/scrollIndicatorDown"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:background="?attr/colorControlHighlight"
+            android:visibility="gone" />
 
     </FrameLayout>
 
@@ -117,7 +119,7 @@
         <FrameLayout
             android:id="@+id/custom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </FrameLayout>
 
     <ScrollView
@@ -134,35 +136,32 @@
             android:gravity="bottom"
             android:layoutDirection="locale"
             android:orientation="horizontal"
-            android:paddingBottom="4dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:paddingTop="4dp">
+            android:padding="12dp">
 
             <Button
                 android:id="@android:id/button3"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <android.widget.Space
-                android:id="@+id/spacer"
+                style="?android:attr/buttonBarNeutralButtonStyle"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:visibility="invisible"/>
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_weight="1" />
+
 
             <Button
                 android:id="@android:id/button2"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                style="?android:attr/buttonBarNegativeButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_weight="1" />
 
             <Button
                 android:id="@android:id/button1"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                style="?android:attr/buttonBarPositiveButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_weight="1" />
 
         </LinearLayout>
 

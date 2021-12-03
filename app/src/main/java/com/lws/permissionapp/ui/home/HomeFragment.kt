@@ -1,12 +1,14 @@
 package com.lws.permissionapp.ui.home
 
 import android.Manifest
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.lws.permissionapp.R
@@ -56,6 +58,16 @@ class HomeFragment : Fragment() {
 
         binding.button2.setOnClickListener {
 
+
+            AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
+                .setMessage("MMMMMMMMMM")
+                .setNeutralButton("npnpnpnp", DialogInterface.OnClickListener { dialog, which ->  })
+                .setNegativeButton("nnnnnn", DialogInterface.OnClickListener { dialog, which ->
+
+                }).setPositiveButton("PPPPP", DialogInterface.OnClickListener { dialog, which ->  })
+                .show().window?.setGravity(Gravity.BOTTOM)
+
+
         }
     }
 
@@ -76,14 +88,15 @@ class HomeFragment : Fragment() {
                 Log.e("ssss", "onResult: $result")
             }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        PermissionX.getDefaultConfig().apply {
+      /*  PermissionX.getDefaultConfig().apply {
             //设置权限解释弹窗AlertDialog主题(可选,默认为宿主Activity的主题中的AlertDialogTheme)
             alertDialogTheme = R.style.MyAlertDialogTheme
             //设置权限解释弹窗位置(可选,默认为Gravity.CENTER)
             gravity = Gravity.BOTTOM
-        }
+        }*/
     }
 
     override fun onDestroyView() {
