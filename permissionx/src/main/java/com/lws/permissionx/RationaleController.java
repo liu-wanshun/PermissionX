@@ -77,9 +77,7 @@ class RationaleController<I, O> {
 
 
     private void show(AlertDialog alertDialog) {
-        PermissionX.hasDialog=true;
         alertDialog.show();
-        alertDialog.setOnDismissListener(dialog -> PermissionX.hasDialog = false);
         alertDialog.getWindow().setGravity(PermissionX.getDefaultConfig().getGravity());
     }
 
