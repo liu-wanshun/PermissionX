@@ -132,16 +132,17 @@ public abstract class PermissionBuilder<I, O> {
     }
 
     void onCancelRationale() {
+        final O finalResult;
         if (permission instanceof String) {
-            permissionResultCallback.onActivityResult((O) (Boolean.valueOf(PermissionX.hasPermission(activity, (String) permission))));
+            finalResult = (O) (Boolean.valueOf(PermissionX.hasPermission(activity, (String) permission)));
         } else {
             Map<String, Boolean> result = new LinkedHashMap<>();
             for (String permission : (String[]) permission) {
                 result.put(permission, (PermissionX.hasPermission(activity, permission)));
             }
-            permissionResultCallback.onActivityResult((O) result);
+            finalResult = (O) result;
         }
-
+        handleResult(finalResult);
     }
 
     /**
