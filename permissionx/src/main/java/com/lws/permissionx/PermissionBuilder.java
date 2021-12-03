@@ -80,9 +80,6 @@ public abstract class PermissionBuilder<I, O> {
      * @param permissionResult 请求权限的结果回调
      */
     public void request(@NonNull ActivityResultCallback<O> permissionResult) {
-        if (PermissionX.hasDialog) {
-            return;
-        }
         this.permissionResultCallback = permissionResult;
         if (isGranted(activity, permission)) {
             if (permission instanceof String) {
