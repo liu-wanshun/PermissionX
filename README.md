@@ -4,7 +4,7 @@
 
 ​	一个简单易用的Android 运行时权限请求框架。
 
-#### 导入依赖
+## Gradle
 
 **1.** 在项目根目录下的 `build.gradle` 文件中加入
 
@@ -27,7 +27,7 @@ dependencies {
 
 
 
-#### 功能使用
+## 用法
 
 **1.** 权限使用目的解释弹窗样式配置（可选）
 
@@ -57,3 +57,26 @@ PermissionX.init(this)
   });
   ```
 
+
+## 更新日志
+
+[Releases](https://gitee.com/liu_wanshun/PermissionX/releases)
+
+
+## License
+
+```
+Copyright (C) 2021. liuwanshun
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
