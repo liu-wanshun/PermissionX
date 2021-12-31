@@ -29,8 +29,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
@@ -40,6 +39,13 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        PermissionX.getDefaultConfig().apply {
+            //设置权限解释弹窗AlertDialog主题(可选,默认为宿主Activity的主题中的AlertDialogTheme)
+            alertDialogTheme = R.style.MyAlertDialogTheme
+            //设置权限解释弹窗位置(可选,默认为Gravity.CENTER)
+            gravity = Gravity.BOTTOM
+        }
         binding.button1.setOnClickListener {
             PermissionX.init(this)
                 .permissions(Manifest.permission.CAMERA)
@@ -57,28 +63,16 @@ class HomeFragment : Fragment() {
 
 
         binding.button2.setOnClickListener {
-
-
             AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
                 .setMessage("MMMMMMMMMM")
-                .setNeutralButton("npnpnpnp", DialogInterface.OnClickListener { dialog, which ->  })
+                .setNeutralButton("npnpnpnp", DialogInterface.OnClickListener { dialog, which -> })
                 .setNegativeButton("nnnnnn", DialogInterface.OnClickListener { dialog, which ->
 
-                }).setPositiveButton("PPPPP", DialogInterface.OnClickListener { dialog, which ->  })
+                }).setPositiveButton("PPPPP", DialogInterface.OnClickListener { dialog, which -> })
                 .show().window?.setGravity(Gravity.BOTTOM)
 
 
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-      /*  PermissionX.getDefaultConfig().apply {
-            //设置权限解释弹窗AlertDialog主题(可选,默认为宿主Activity的主题中的AlertDialogTheme)
-            alertDialogTheme = R.style.MyAlertDialogTheme
-            //设置权限解释弹窗位置(可选,默认为Gravity.CENTER)
-            gravity = Gravity.BOTTOM
-        }*/
     }
 
     override fun onDestroyView() {
