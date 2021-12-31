@@ -7,8 +7,8 @@ import android.provider.Settings;
 
 import androidx.appcompat.app.AlertDialog;
 
-class RationaleController<I, O> {
-    private final PermissionBuilder<I, O> permissionBuilder;
+class RationaleController{
+    private final PermissionBuilder permissionBuilder;
 
 
     CharSequence requestRationale;
@@ -22,7 +22,7 @@ class RationaleController<I, O> {
     Runnable deniedForeverRationaleNegativeListener;
 
 
-    RationaleController(PermissionBuilder<I, O> permissionBuilder) {
+    RationaleController(PermissionBuilder permissionBuilder) {
         this.permissionBuilder = permissionBuilder;
     }
 

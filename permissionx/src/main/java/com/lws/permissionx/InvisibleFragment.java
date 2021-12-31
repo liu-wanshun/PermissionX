@@ -4,6 +4,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
+import java.util.Map;
+
 
 /**
  * @author lws
@@ -12,11 +14,10 @@ public class InvisibleFragment extends Fragment {
     static final String TAG = "InvisibleFragment";
 
     private PermissionBuilder permissionBuilder;
-    private final ActivityResultLauncher<String> requestPermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), this::handleResult);
 
     private final ActivityResultLauncher<String[]> requestMultiplePermissions = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), this::handleResult);
 
-    private <O> void handleResult(O result) {
+    private void handleResult(Map<String, Boolean> result) {
         if (permissionBuilder != null) {
             permissionBuilder.handleResult(result);
             permissionBuilder.removeInvisibleFragment();
@@ -24,14 +25,9 @@ public class InvisibleFragment extends Fragment {
         }
     }
 
-    public <I, O> void request(PermissionBuilder<I, O> permissionBuilder) {
+    public  void request(PermissionBuilder permissionBuilder) {
         this.permissionBuilder = permissionBuilder;
         this.permissionBuilder.lockOrientation();
-
-        if (permissionBuilder.getPermission() instanceof String) {
-            requestPermission.launch((String) permissionBuilder.getPermission());
-        } else {
-            requestMultiplePermissions.launch((String[]) permissionBuilder.getPermission());
-        }
+        requestMultiplePermissions.launch(permissionBuilder.getPermissions());
     }
 }

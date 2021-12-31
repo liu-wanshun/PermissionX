@@ -1,8 +1,5 @@
 package com.lws.permissionx;
 
-import android.content.Context;
-
-import androidx.activity.result.ActivityResultCallback;
 import androidx.annotation.CheckResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,23 +15,22 @@ import java.util.Map;
 /**
  * @author lws
  */
-public abstract class PermissionBuilder<I, O> {
+public class PermissionBuilder {
 
-    final RationaleController<I, O> rationaleController = new RationaleController<>(this);
-    private final I permission;
+    final RationaleController rationaleController = new RationaleController(this);
+    private final String[] permissions;
     @NonNull
     FragmentActivity activity;
     @Nullable
     Fragment fragment;
     OrientationHelper orientationHelper;
-    private ActivityResultCallback<O> permissionResultCallback;
+    private PermissionResultCallback permissionResultCallback;
 
-    PermissionBuilder(@NonNull FragmentActivity activity, @Nullable Fragment fragment, I permission) {
+    PermissionBuilder(@NonNull FragmentActivity activity, @Nullable Fragment fragment, String[] permissions) {
         this.activity = activity;
         this.fragment = fragment;
         orientationHelper = new OrientationHelper(activity);
-        this.permission = permission;
-
+        this.permissions = permissions;
     }
 
     private FragmentManager getFragmentManager() {
@@ -57,10 +53,19 @@ public abstract class PermissionBuilder<I, O> {
         }
     }
 
-    void handleResult(O result) {
-        permissionResultCallback.onActivityResult(result);
+
+    void handleResult(Map<String, Boolean> result) {
+        PermissionResult permissionResult = new PermissionResult();
+        for (String permission : result.keySet()) {
+            if (Boolean.TRUE.equals(result.get(permission))) {
+                permissionResult.addGranted(permission);
+            } else {
+                permissionResult.addDenied(permission);
+            }
+        }
+        permissionResultCallback.onPermissionResult(permissionResult);
         //处理拒绝的情况
-        if (!isGranted(activity, permission)) {
+        if (!PermissionX.hasPermissions(activity, permissions)) {
             if (shouldShowPermissionRationale()) {
                 rationaleController.showDeniedRationale();
             } else {
@@ -69,29 +74,24 @@ public abstract class PermissionBuilder<I, O> {
         }
     }
 
-    I getPermission() {
-        return permission;
+    String[] getPermissions() {
+        return permissions;
     }
 
 
     /**
      * 建议请求权限前进行解释权限使用原因
      *
-     * @param permissionResult 请求权限的结果回调
+     * @param permissionResultCallback 请求权限的结果回调
      */
-    public void request(@NonNull ActivityResultCallback<O> permissionResult) {
-        this.permissionResultCallback = permissionResult;
-        if (isGranted(activity, permission)) {
-            if (permission instanceof String) {
-                permissionResult.onActivityResult((O) Boolean.TRUE);
-            } else {
-                Map<String, Boolean> result = new LinkedHashMap<>();
-                for (String permission : (String[]) permission) {
-                    result.put(permission, true);
-                }
-                permissionResult.onActivityResult((O) result);
+    public void request(@NonNull PermissionResultCallback permissionResultCallback) {
+        this.permissionResultCallback = permissionResultCallback;
+        if (PermissionX.hasPermissions(activity, permissions)) {
+            PermissionResult permissionResult = new PermissionResult();
+            for (String permission : permissions) {
+                permissionResult.addGranted(permission);
             }
-
+            permissionResultCallback.onPermissionResult(permissionResult);
         } else {
             if (shouldShowPermissionRationale() && rationaleController.canShowRequestRationale()) {
                 rationaleController.showRequestRationale();
@@ -101,30 +101,15 @@ public abstract class PermissionBuilder<I, O> {
         }
     }
 
-    private <T> boolean isGranted(Context context, T permission) {
-        if (permission instanceof String) {
-            return PermissionX.hasPermissions(context, (String) permission);
-        } else if (permission instanceof String[]) {
-            return PermissionX.hasPermissions(context, ((String[]) permission)[0], (String[]) permission);
-        } else {
-            return true;
-        }
-    }
-
     private boolean shouldShowPermissionRationale() {
-        String firstDeniedPermission;
-        if (permission instanceof String) {
-            firstDeniedPermission = (String) permission;
-        } else {
-            firstDeniedPermission = getFirstDeniedPermission((String[]) permission);
-        }
+        String firstDeniedPermission = getFirstDeniedPermission(permissions);
         return firstDeniedPermission != null && ActivityCompat.shouldShowRequestPermissionRationale(activity, firstDeniedPermission);
     }
 
     @Nullable
     private String getFirstDeniedPermission(String[] permissions) {
         for (String permission : permissions) {
-            if (!PermissionX.hasPermission(activity, permission)) {
+            if (!PermissionX.hasPermissions(activity, permission)) {
                 return permission;
             }
         }
@@ -132,17 +117,11 @@ public abstract class PermissionBuilder<I, O> {
     }
 
     void onCancelRationale() {
-        final O finalResult;
-        if (permission instanceof String) {
-            finalResult = (O) (Boolean.valueOf(PermissionX.hasPermission(activity, (String) permission)));
-        } else {
-            Map<String, Boolean> result = new LinkedHashMap<>();
-            for (String permission : (String[]) permission) {
-                result.put(permission, (PermissionX.hasPermission(activity, permission)));
-            }
-            finalResult = (O) result;
+        Map<String, Boolean> result = new LinkedHashMap<>();
+        for (String permission : permissions) {
+            result.put(permission, (PermissionX.hasPermissions(activity, permission)));
         }
-        handleResult(finalResult);
+        handleResult(result);
     }
 
     /**
@@ -150,7 +129,7 @@ public abstract class PermissionBuilder<I, O> {
      * @return this
      */
     @CheckResult
-    public PermissionBuilder<I, O> onRequestRationale(@NonNull CharSequence rationaleMsg) {
+    public PermissionBuilder onRequestRationale(@NonNull CharSequence rationaleMsg) {
         rationaleController.requestRationale = rationaleMsg;
         return this;
     }
@@ -160,7 +139,7 @@ public abstract class PermissionBuilder<I, O> {
      * @return this
      */
     @CheckResult
-    public PermissionBuilder<I, O> onRequestRationale(@StringRes int rationaleRes) {
+    public PermissionBuilder onRequestRationale(@StringRes int rationaleRes) {
         return onRequestRationale(activity.getText(rationaleRes));
     }
 
@@ -170,7 +149,7 @@ public abstract class PermissionBuilder<I, O> {
      * @return this
      */
     @CheckResult
-    public PermissionBuilder<I, O> onDeniedRationale(@NonNull CharSequence deniedRationale, @NonNull Runnable negativeListener) {
+    public PermissionBuilder onDeniedRationale(@NonNull CharSequence deniedRationale, @NonNull Runnable negativeListener) {
         rationaleController.deniedRationale = deniedRationale;
         rationaleController.deniedRationaleNegativeListener = negativeListener;
         return this;
@@ -183,7 +162,7 @@ public abstract class PermissionBuilder<I, O> {
      * @return this
      */
     @CheckResult
-    public PermissionBuilder<I, O> onDeniedRationale(@StringRes int rationaleRes, @NonNull Runnable negativeListener) {
+    public PermissionBuilder onDeniedRationale(@StringRes int rationaleRes, @NonNull Runnable negativeListener) {
         return onDeniedRationale(activity.getText(rationaleRes), negativeListener);
     }
 
@@ -193,7 +172,7 @@ public abstract class PermissionBuilder<I, O> {
      * @return this
      */
     @CheckResult
-    public PermissionBuilder<I, O> onDeniedForeverRationale(@NonNull CharSequence deniedForeverRationale, @NonNull Runnable negativeListener) {
+    public PermissionBuilder onDeniedForeverRationale(@NonNull CharSequence deniedForeverRationale, @NonNull Runnable negativeListener) {
         rationaleController.deniedForeverRationale = deniedForeverRationale;
         rationaleController.deniedForeverRationaleNegativeListener = negativeListener;
         return this;
@@ -206,7 +185,7 @@ public abstract class PermissionBuilder<I, O> {
      * @return this
      */
     @CheckResult
-    public PermissionBuilder<I, O> onDeniedForeverRationale(@StringRes int rationaleRes, @NonNull Runnable negativeListener) {
+    public PermissionBuilder onDeniedForeverRationale(@StringRes int rationaleRes, @NonNull Runnable negativeListener) {
         return onDeniedForeverRationale(activity.getText(rationaleRes), negativeListener);
     }
 
@@ -224,19 +203,5 @@ public abstract class PermissionBuilder<I, O> {
 
     void lockOrientation() {
         orientationHelper.lockOrientation();
-    }
-
-    static class SinglePermissionBuilderIml extends PermissionBuilder<String, Boolean> {
-
-        SinglePermissionBuilderIml(@NonNull FragmentActivity activity, @Nullable Fragment fragment, String permission) {
-            super(activity, fragment, permission);
-        }
-    }
-
-    static class MultiplePermissionBuilderIml extends PermissionBuilder<String[], Map<String, Boolean>> {
-
-        MultiplePermissionBuilderIml(@NonNull FragmentActivity activity, @Nullable Fragment fragment, String... permission) {
-            super(activity, fragment, permission);
-        }
     }
 }

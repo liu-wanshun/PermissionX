@@ -23,16 +23,9 @@ public class PermissionX {
         return new PermissionMediator(fragment);
     }
 
-    public static boolean hasPermission(@NonNull Context context, @NonNull String permission) {
-        return PermissionChecker.checkSelfPermission(context, permission) == PermissionChecker.PERMISSION_GRANTED;
-    }
-
-    public static boolean hasPermissions(@NonNull Context context, @NonNull String permission, @NonNull String... permissions) {
-        if (!hasPermission(context, permission)) {
-            return false;
-        }
-        for (String tempPermission : permissions) {
-            if (!hasPermission(context, tempPermission)) {
+    public static boolean hasPermissions(@NonNull Context context, @NonNull String... permissions) {
+        for (String permission : permissions) {
+            if (PermissionChecker.checkSelfPermission(context, permission) != PermissionChecker.PERMISSION_GRANTED) {
                 return false;
             }
         }
