@@ -20,7 +20,7 @@ public class TestActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         PermissionX.init(this)
-                .permission(Manifest.permission.CAMERA)
+                .permissions(Manifest.permission.CAMERA)
                 .onRequestRationale("解释请求权限的原因")
                 //在拒绝权限时进行解释（可选）
                 .onDeniedRationale("拒绝了权限，进行解释，同意后将再次请求权限", () -> {
@@ -31,7 +31,7 @@ public class TestActivity extends AppCompatActivity {
                     Log.e("ssss", "不认可永久拒绝解释,可以退出");
                 })
                 .request(result -> {
-                    Log.e("ssss", "onResult: $result");
+                    Log.e("ssss", "onResult: "+result);
                 });
     }
 }

@@ -42,7 +42,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.button1.setOnClickListener {
             PermissionX.init(this)
-                .permission(Manifest.permission.CAMERA)
+                .permissions(Manifest.permission.CAMERA)
                 .onRequestRationale("解释请求权限的原因")
                 .onDeniedRationale("拒绝了权限，进行解释，同意后将再次请求权限") {
                     Log.e("ssss", "不认可拒绝解释，可以退出")
@@ -50,7 +50,7 @@ class HomeFragment : Fragment() {
                 .onDeniedForeverRationale("永久拒绝了权限，进行解释，同意将跳转设置界面让用户自己开启权限") {
                     Log.e("ssss", "不认可永久拒绝解释,可以退出")
                 }
-                .request { result: Boolean ->
+                .request { result ->
                     Log.e("ssss", "onResult: $result")
                 }
         }
