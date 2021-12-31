@@ -40,7 +40,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        PermissionX.getDefaultConfig().apply {
+        PermissionX.defaultConfig.apply {
             //设置权限解释弹窗AlertDialog主题(可选,默认为宿主Activity的主题中的AlertDialogTheme)
             alertDialogTheme = R.style.MyAlertDialogTheme
             //设置权限解释弹窗位置(可选,默认为Gravity.CENTER)

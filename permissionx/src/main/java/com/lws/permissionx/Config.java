@@ -11,19 +11,14 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * @author lws
  */
-public class DefaultConfig {
-
+public class Config {
 
     @StyleRes
     private int alertDialogTheme;
     @GravityFlags
     private int gravity = Gravity.CENTER;
 
-    private DefaultConfig() {
-    }
-
-    static DefaultConfig getInstance() {
-        return SingleHolder.defaultConfig;
+    Config() {
     }
 
 
@@ -32,7 +27,7 @@ public class DefaultConfig {
         return alertDialogTheme;
     }
 
-    public DefaultConfig setAlertDialogTheme(@StyleRes int alertDialogTheme) {
+    public Config setAlertDialogTheme(@StyleRes int alertDialogTheme) {
         this.alertDialogTheme = alertDialogTheme;
         return this;
     }
@@ -42,7 +37,7 @@ public class DefaultConfig {
         return gravity;
     }
 
-    public DefaultConfig setGravity(@GravityFlags int gravity) {
+    public Config setGravity(@GravityFlags int gravity) {
         this.gravity = gravity;
         return this;
     }
@@ -68,9 +63,5 @@ public class DefaultConfig {
             Gravity.NO_GRAVITY
     })
     public @interface GravityFlags {
-    }
-
-    private static class SingleHolder {
-        static DefaultConfig defaultConfig = new DefaultConfig();
     }
 }
