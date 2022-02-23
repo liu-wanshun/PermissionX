@@ -1,8 +1,9 @@
 package com.lws.permissionx
 
 import android.content.Context
+import android.content.pm.PackageManager
 import androidx.annotation.CheckResult
-import androidx.core.content.PermissionChecker
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 
@@ -25,10 +26,10 @@ object PermissionX {
     @JvmStatic
     fun hasPermissions(context: Context, vararg permissions: String): Boolean {
         for (permission in permissions) {
-            if (PermissionChecker.checkSelfPermission(
+            if (ActivityCompat.checkSelfPermission(
                     context,
                     permission
-                ) != PermissionChecker.PERMISSION_GRANTED
+                ) != PackageManager.PERMISSION_GRANTED
             ) {
                 return false
             }
