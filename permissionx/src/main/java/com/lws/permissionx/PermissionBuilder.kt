@@ -1,8 +1,11 @@
 package com.lws.permissionx
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.annotation.CheckResult
 import androidx.annotation.StringRes
 import androidx.core.app.ActivityCompat
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
@@ -14,7 +17,7 @@ import com.lws.permissionx.PermissionX.hasPermissions
 class PermissionBuilder internal constructor(
     private val activity: FragmentActivity,
     private val fragment: Fragment?,
-    private val permissions: Array<out String>
+    private val permissions: Array<String>
 ) {
     private val rationaleController = RationaleController(this, activity, permissions)
 
@@ -62,6 +65,7 @@ class PermissionBuilder internal constructor(
     @JvmSynthetic
     internal fun requestPermissions() {
         invisibleFragment.request(this, permissions)
+        getFirstDeniedPermission(permissions)?.let { markRequest(it) }
     }
 
     @JvmSynthetic
@@ -88,13 +92,27 @@ class PermissionBuilder internal constructor(
 
     }
 
+    /**
+     * 第一次请求，或系统认为需要解释
+     */
     private fun shouldShowPermissionRationale(): Boolean {
-        val firstDeniedPermission = getFirstDeniedPermission(permissions)
-        return firstDeniedPermission != null &&
-                ActivityCompat.shouldShowRequestPermissionRationale(activity, firstDeniedPermission)
+        val permission = getFirstDeniedPermission(permissions)
+        return permission != null && (isFirstRequest(permission) ||
+                ActivityCompat.shouldShowRequestPermissionRationale(activity, permission))
     }
 
-    private fun getFirstDeniedPermission(permissions: Array<out String>): String? {
+    private fun isFirstRequest(permission: String): Boolean {
+        return activity.getPreferences().getBoolean(permission, true)
+    }
+
+    private fun markRequest(permission: String) {
+        activity.getPreferences().edit {
+            putBoolean(permission, false)
+        }
+    }
+
+
+    private fun getFirstDeniedPermission(permissions: Array<String>): String? {
         for (permission in permissions) {
             if (!hasPermissions(activity, permission)) {
                 return permission
@@ -187,4 +205,8 @@ class PermissionBuilder internal constructor(
         return onDeniedForeverRationale(activity.getText(rationaleRes), negativeListener)
     }
 
+}
+
+private fun Context.getPreferences(): SharedPreferences {
+    return getSharedPreferences(PermissionX.javaClass.simpleName, Context.MODE_PRIVATE)
 }

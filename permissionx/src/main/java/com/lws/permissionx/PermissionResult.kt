@@ -1,7 +1,5 @@
 package com.lws.permissionx
 
-import java.util.*
-
 /**
  * @author lws
  */

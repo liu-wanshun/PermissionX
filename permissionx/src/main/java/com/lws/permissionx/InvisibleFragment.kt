@@ -1,6 +1,7 @@
 package com.lws.permissionx
 
 import android.content.Context
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
 import androidx.fragment.app.Fragment
 
@@ -9,7 +10,7 @@ import androidx.fragment.app.Fragment
  */
 class InvisibleFragment : Fragment() {
     private var permissionBuilder: PermissionBuilder? = null
-    private val requestMultiplePermissions =
+    private val requestMultiplePermissions: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(RequestMultiplePermissions()) { result ->
             orientationHelper?.restoreOrientation()
             permissionBuilder?.handleResult(result, false)
@@ -20,7 +21,7 @@ class InvisibleFragment : Fragment() {
             }
         }
 
-    internal fun request(permissionBuilder: PermissionBuilder, permissions: Array<out String>) {
+    internal fun request(permissionBuilder: PermissionBuilder, permissions: Array<String>) {
         this.permissionBuilder = permissionBuilder
         orientationHelper?.lockOrientation()
         requestMultiplePermissions.launch(permissions)

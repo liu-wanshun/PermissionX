@@ -2,7 +2,7 @@
 
 [![](https://jitpack.io/v/com.gitee.liu_wanshun/PermissionX.svg)](https://jitpack.io/#com.gitee.liu_wanshun/PermissionX)
 
-​	一个简单易用的Android 运行时权限请求框架。
+	一个简单易用的Android 运行时权限请求框架。
 
 ## Gradle
 
@@ -11,7 +11,7 @@
 ```groovy
 allprojects {
 	repositories {
-		maven { url 'https://jitpack.io' }
+		 maven { url = "https://jitpack.io" }
 	}
 }
 ```
@@ -21,7 +21,7 @@ allprojects {
 ```groovy
 dependencies {
   //仅支持AndroidX
-  implementation 'com.gitee.liu_wanshun:PermissionX:0.1.0'
+  implementation ("com.gitee.liu_wanshun:PermissionX:latest_version")
 }
 ```
 
