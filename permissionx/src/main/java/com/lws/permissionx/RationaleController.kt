@@ -11,7 +11,7 @@ import com.lws.permissionx.PermissionX.defaultConfig
 internal class RationaleController(
     private val permissionBuilder: PermissionBuilder,
     private val context: Context,
-    private val permissions: Array<out String>
+    private val permissions: Array<String>
 ) {
     var requestRationale: CharSequence? = null
     var deniedRationale: CharSequence? = null
