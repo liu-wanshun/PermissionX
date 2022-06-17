@@ -9,7 +9,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import com.lws.permissionx.internal.DefaultRationaleFactory
 import com.lws.permissionx.internal.OrientationHelper
 import com.lws.permissionx.internal.RationaleController
 import com.lws.permissionx.internal.RequestPermissionsContract

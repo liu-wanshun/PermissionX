@@ -4,11 +4,6 @@ import android.Manifest
 import android.annotation.TargetApi
 import android.os.Build
 
-
-object PermissionCompat {
-    const val GET_INSTALLED_APPS = "com.android.permission.GET_INSTALLED_APPS"
-}
-
 @Suppress("DEPRECATION")
 @TargetApi(Build.VERSION_CODES.Q)
 val permissionMapOnQ = mapOf(

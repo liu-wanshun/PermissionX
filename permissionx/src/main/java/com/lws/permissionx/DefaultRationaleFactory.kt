@@ -1,4 +1,4 @@
-package com.lws.permissionx.internal
+package com.lws.permissionx
 
 import android.app.Dialog
 import android.content.Context
@@ -7,9 +7,6 @@ import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import com.lws.permissionx.R
-import com.lws.permissionx.RationaleFactory
-
 
 open class DefaultRationaleFactory : RationaleFactory {
     override fun createRationale(

@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = 32
 
     defaultConfig {
         minSdk = 19
-        targetSdk = 31
+        targetSdk = 32
         consumerProguardFile("consumer-rules.pro")
     }
 

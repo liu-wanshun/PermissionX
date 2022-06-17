@@ -23,7 +23,7 @@ class PermissionMediator {
     /**
      * 填写需要申请的权限
      *
-     * @param permissions 需要申请的权限
+     * @param permissions 需要申请的权限,应该是 [android.Manifest.permission] 中的权限，如果填写国内ROM定制增加的权限，请务必在请求前检查权限是否存在，如果权限不存在，可能一直返回拒绝的结果
      * @return MultiplePermissionBuilder
      */
     @CheckResult
