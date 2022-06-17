@@ -140,7 +140,7 @@
 
             <Button
                 android:id="@android:id/button3"
-                style="?android:attr/buttonBarNeutralButtonStyle"
+                style="?attr/buttonBarNeutralButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
@@ -149,7 +149,7 @@
 
             <Button
                 android:id="@android:id/button2"
-                style="?android:attr/buttonBarNegativeButtonStyle"
+                style="?attr/buttonBarNegativeButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
@@ -157,7 +157,7 @@
 
             <Button
                 android:id="@android:id/button1"
-                style="?android:attr/buttonBarPositiveButtonStyle"
+                style="?attr/buttonBarPositiveButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"

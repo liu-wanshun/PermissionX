@@ -3,17 +3,20 @@ package com.lws.permissionx
 /**
  * @author lws
  */
-class PermissionResult internal constructor() {
-    fun addGranted(permission: String) {
-        grantedList.add(permission)
-    }
-
-    fun addDenied(permission: String) {
-        deniedList.add(permission)
-    }
-
+class PermissionResult internal constructor(result: Map<String, Boolean>) {
     private val grantedList: MutableList<String> = ArrayList()
     private val deniedList: MutableList<String> = ArrayList()
+
+    init {
+        for (permission in result.keys) {
+            if (java.lang.Boolean.TRUE == result[permission]) {
+                grantedList.add(permission)
+            } else {
+                deniedList.add(permission)
+            }
+        }
+    }
+
     val isAllGranted: Boolean
         get() = deniedList.isEmpty()
 
@@ -31,4 +34,8 @@ class PermissionResult internal constructor() {
                 ", deniedList=" + deniedList +
                 '}'
     }
+}
+
+fun interface PermissionResultCallback {
+    fun onPermissionResult(result: PermissionResult)
 }

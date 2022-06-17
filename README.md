@@ -21,47 +21,39 @@ allprojects {
 ```groovy
 dependencies {
   //仅支持AndroidX
-  implementation ("com.gitee.liu_wanshun:PermissionX:latest_version")
+    implementation("com.gitee.liu_wanshun:PermissionX:latest_version")
 }
 ```
 
-
-
 ## 用法
 
-**1.** 权限使用目的解释弹窗样式配置（可选）
+**1.** 权限请求
 
-```java
-PermissionX.getDefaultConfig()
-  //设置权限解释弹窗AlertDialog主题(可选,默认为宿主Activity的主题中的AlertDialogTheme)，可在主题中自定义布局界面，参考demo
-  .setAlertDialogTheme(R.style.Theme_Material3_DayNight_Dialog_Alert)
-  //设置权限解释弹窗位置(可选,默认为Gravity.CENTER)
-  .setGravity(Gravity.BOTTOM)
-```
-**2.** 权限请求
-
-  ```java
-PermissionX.init(this)
-  .permissions(Manifest.permission.CAMERA)
-  //以下解释中的字符串推荐使用String资源
-  .onRequestRationale("这里解释权限请求的原因，因合规化需求，推荐进行解释。【可选方法，如不需要可不写该方法】")
-  .onDeniedRationale("因用户拒绝了权限，这里可以进行解释，同意后将再次请求权限。【可选方法，如不需要可不写该方法】", () -> {
-    Log.e("PermissionX", "此时用户不认可解释，仍然拒绝，可以自定义操作，比如退出，或者不进行需要权限的操作");
-  })
-  .onDeniedForeverRationale("因用户永久拒绝权限解释，同意将跳转设置界面引导用户自己开启权限。【可选方法，如不需要可不写该方法】", () -> {
-    Log.e("PermissionX", "此时用户不认可解释，仍然拒绝，可以自定义操作，比如退出，或者不进行需要权限的操作");
-  })
-  .request(result -> {
-    //此时可根据权限请求的结果执行对应的操作
-    Log.e("PermissionX", "权限请求的结果: " + result);
-  });
+  ```kotlin
+ PermissionX.with(this)
+                .permissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .onRequestRationale("授权通过后，方便在聊天中，提供发送手机相册中的媒体内容给对方的能力")
+                .request { result ->
+                    Log.e("ssss", "request   onResult: isAllGranted  ->  ${result.isAllGranted}")
+                    Log.e("ssss", "request   onResult: Granted -> ${result.getGrantedList()}")
+                    Log.e("ssss", "request   onResult: Denied  -> ${result.getDeniedList()}")
+                }
   ```
 
+2.自定义弹框样式
+
+```kotlin
+
+//设置自定义弹框
+PermissionX.setRationaleFactory(CustomRationaleFactory())
+
+//取消设置自定义弹框（使用默认弹框）
+PermissionX.setRationaleFactory(null)
+```
 
 ## 更新日志
 
 [Releases](https://gitee.com/liu_wanshun/PermissionX/releases)
-
 
 ## License
 

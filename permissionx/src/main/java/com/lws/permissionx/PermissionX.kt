@@ -13,13 +13,13 @@ import androidx.fragment.app.FragmentActivity
 object PermissionX {
     @CheckResult
     @JvmStatic
-    fun init(activity: FragmentActivity): PermissionMediator {
+    fun with(activity: FragmentActivity): PermissionMediator {
         return PermissionMediator(activity)
     }
 
     @CheckResult
     @JvmStatic
-    fun init(fragment: Fragment): PermissionMediator {
+    fun with(fragment: Fragment): PermissionMediator {
         return PermissionMediator(fragment)
     }
 
@@ -37,7 +37,17 @@ object PermissionX {
         return true
     }
 
+
+    @JvmField
+    @JvmSynthetic
+    internal var customRationaleFactory: RationaleFactory? = null
+
+    /**
+     * @param rationaleFactory 自定义解释弹框的创建工厂，设置null时即使用sdk默认配置
+     */
     @JvmStatic
-    val defaultConfig = Config()
+    fun setRationaleFactory(rationaleFactory: RationaleFactory?) = this.apply {
+        customRationaleFactory = rationaleFactory
+    }
 
 }

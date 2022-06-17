@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">PermissionX</string>
-    <string name="title_activity_bottom_nav">BottomNavActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_kotlin">Kotlin</string>
+    <string name="title_java">Java</string>
 </resources>

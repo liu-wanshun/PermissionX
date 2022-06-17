@@ -2,27 +2,6 @@
     <!-- Base application theme. -->
     <style name="Theme.Permission" parent="Theme.Material3.DayNight.NoActionBar">
 
-
-<!--        <item name="alertDialogStyle">@style/MaterialAlertDialog.MaterialComponents</item>-->
-
-<!--        <item name="alertDialogTheme">@style/ThemeOverlay.AppCompat.Dialog.Alert</item>-->
-<!--        <item name="alertDialogStyle">@style/AlertDialog.AppCompat.Light</item>-->
     </style>
-
-
-   <style name="MyAlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
-       <item name="alertDialogStyle">@style/MyAlertDialogStyle</item>
-       <item name="dialogCornerRadius">16dp</item>
-<!--       <item name="colorBackgroundFloating">@color/design_default_color_error</item>-->
-
-<!--       <item name="android:windowBackground">@drawable/abc_dialog_material_background</item>-->
-       <item name="android:windowBackground">@drawable/dialog</item>
-   </style>
-
-
-    <style name="MyAlertDialogStyle" parent="Base.AlertDialog.AppCompat">
-        <item name="android:layout">@layout/alert_dialog</item>
-    </style>
-
 
 </resources>

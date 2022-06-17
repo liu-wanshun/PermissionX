@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <style name="PermissionDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="alertDialogStyle">@style/PermissionAlertDialogStyle</item>
+        <item name="dialogCornerRadius">16dp</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonDialog</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonDialog</item>
+    </style>
+
+    <style name="PositiveButtonDialog">
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="NegativeButtonDialog">
+        <item name="backgroundTint">?android:attr/colorControlHighlight</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+
+    <style name="PermissionAlertDialogStyle" parent="Base.AlertDialog.AppCompat">
+        <item name="android:layout">@layout/permissionx_alert_dialog</item>
+    </style>
+
+</resources>

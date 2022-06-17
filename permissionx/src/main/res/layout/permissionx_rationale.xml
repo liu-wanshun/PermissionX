@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/app_icon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/app_icon"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/app_icon"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:textStyle="bold"
+        tools:text="app 请求 xxx 权限 " />
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:paddingTop="8dp"
+        tools:text="app 请求 xxx 权限 是生生世世生生世世生生世世生生世世生生世世生生世世生生世世生生世世试试 " />
+</RelativeLayout>

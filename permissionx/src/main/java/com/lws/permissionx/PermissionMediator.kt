@@ -27,7 +27,7 @@ class PermissionMediator {
      * @return MultiplePermissionBuilder
      */
     @CheckResult
-    fun permissions(vararg permissions: String): PermissionBuilder {
-        return PermissionBuilder(activity, fragment, permissions as Array<String>)
+    fun permissions(vararg permissions: String): PermissionRationaleBuilder {
+        return PermissionRationaleBuilder(activity, fragment, permissions as Array<String>)
     }
 }
