@@ -12,11 +12,13 @@
     <style name="PositiveButtonDialog">
         <item name="backgroundTint">?attr/colorPrimary</item>
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:stateListAnimator">@null</item>
     </style>
 
     <style name="NegativeButtonDialog">
-        <item name="backgroundTint">?android:attr/colorControlHighlight</item>
+        <item name="backgroundTint">?attr/colorButtonNormal</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:stateListAnimator">@null</item>
     </style>
 
 
