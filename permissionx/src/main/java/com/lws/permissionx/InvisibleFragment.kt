@@ -25,7 +25,7 @@ class InvisibleFragment : Fragment(), RationaleController {
     private var rationaleDialog: Dialog? = null
 
     private val rationaleFactory
-        get() = PermissionX.customRationaleFactory ?: DefaultRationaleFactory
+        get() = PermissionX.customRationaleFactory ?: DefaultRationaleFactory()
 
 
     private val appDetailsSetting = registerForActivityResult(StartActivityForResult()) {

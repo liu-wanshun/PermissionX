@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.lws.permissionx.PermissionCompat
 import com.lws.permissionx.PermissionX
 
 class MainActivity : AppCompatActivity() {
@@ -14,7 +15,11 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.request).setOnClickListener {
             PermissionX.with(this)
-                .permissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .permissions(
+                    PermissionCompat.GET_INSTALLED_APPS,
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
                 .onRequestRationale("授权通过后，方便在聊天中，提供发送手机相册中的媒体内容给对方的能力")
                 .request { result ->
                     Log.e("ssss", "request   onResult: isAllGranted  ->  ${result.isAllGranted}")

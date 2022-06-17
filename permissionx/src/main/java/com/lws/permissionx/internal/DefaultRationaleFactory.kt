@@ -2,17 +2,16 @@ package com.lws.permissionx.internal
 
 import android.app.Dialog
 import android.content.Context
-import android.content.pm.PackageManager
-import android.os.Build
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import com.lws.permissionx.*
+import com.lws.permissionx.R
+import com.lws.permissionx.RationaleFactory
 
 
-internal object DefaultRationaleFactory : RationaleFactory {
+open class DefaultRationaleFactory : RationaleFactory {
     override fun createRationale(
         context: Context,
         permissions: Array<String>,
@@ -76,47 +75,5 @@ internal object DefaultRationaleFactory : RationaleFactory {
             }.create().apply {
                 window?.setGravity(Gravity.BOTTOM)
             }
-    }
-
-    private fun buildPermissionNames(
-        permissions: Array<String>,
-        context: Context
-    ): Set<String> {
-        val permissionNames = mutableSetOf<String>()
-        val tempSet = HashSet<String>()
-        val currentVersion = Build.VERSION.SDK_INT
-
-        for (permission in permissions) {
-            val permissionGroup = when {
-                currentVersion < Build.VERSION_CODES.Q -> {
-                    try {
-                        val permissionInfo = context.packageManager.getPermissionInfo(permission, 0)
-                        permissionInfo.group
-                    } catch (e: PackageManager.NameNotFoundException) {
-                        e.printStackTrace()
-                        null
-                    }
-                }
-                currentVersion == Build.VERSION_CODES.Q -> permissionMapOnQ[permission]
-                currentVersion == Build.VERSION_CODES.R -> permissionMapOnR[permission]
-                currentVersion == Build.VERSION_CODES.S -> permissionMapOnS[permission]
-                else -> {
-                    // If currentVersion is newer than the latest version we support, we just use
-                    // the latest version for temp. Will upgrade in the next release.
-                    permissionMapOnS[permission]
-                }
-            }
-            if ((permissionGroup != null && !tempSet.contains(permissionGroup))
-            ) {
-                permissionNames.add(
-                    context.getString(
-                        context.packageManager
-                            .getPermissionGroupInfo(permissionGroup, 0).labelRes
-                    )
-                )
-                tempSet.add(permissionGroup)
-            }
-        }
-        return permissionNames
     }
 }
