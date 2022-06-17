@@ -51,6 +51,12 @@ PermissionX.setRationaleFactory(CustomRationaleFactory())
 PermissionX.setRationaleFactory(null)
 ```
 
+**请求时效果 ：**
+![request](picture/request.png)
+
+**永久拒绝时效果：**
+![request](picture/denied_forever.png)
+
 ## 更新日志
 
 [Releases](https://gitee.com/liu_wanshun/PermissionX/releases)
