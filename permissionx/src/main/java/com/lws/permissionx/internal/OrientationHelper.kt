@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
+import android.os.Build
 
 /**
  * @author lws
@@ -11,11 +12,17 @@ import android.content.res.Configuration
 internal class OrientationHelper(private val activity: Activity) {
     private var originRequestOrientation = 0
     fun restoreOrientation() {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) {
+            return
+        }
         activity.requestedOrientation = originRequestOrientation
     }
 
     @SuppressLint("SourceLockedOrientationActivity")
     fun lockOrientation() {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) {
+            return
+        }
         originRequestOrientation = activity.requestedOrientation
         val orientation = activity.resources.configuration.orientation
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
