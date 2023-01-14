@@ -45,10 +45,22 @@ val permissionMapOnR = permissionMapOnQ
 
 
 @TargetApi(Build.VERSION_CODES.S)
-val permissionMapOnS = mapOf(
+val permissionMapOnS: Map<String, String> = mutableMapOf(
     Manifest.permission.BLUETOOTH_SCAN to Manifest.permission_group.NEARBY_DEVICES,
     Manifest.permission.BLUETOOTH_ADVERTISE to Manifest.permission_group.NEARBY_DEVICES,
     Manifest.permission.BLUETOOTH_CONNECT to Manifest.permission_group.NEARBY_DEVICES,
-).toMutableMap().apply {
+).apply {
     putAll(permissionMapOnR)
-}.toMap()
+}
+
+@TargetApi(Build.VERSION_CODES.TIRAMISU)
+val permissionMapOnT: Map<String, String> = mutableMapOf(
+    Manifest.permission.READ_MEDIA_IMAGES to Manifest.permission_group.READ_MEDIA_VISUAL,
+    Manifest.permission.READ_MEDIA_VIDEO to Manifest.permission_group.READ_MEDIA_VISUAL,
+    Manifest.permission.READ_MEDIA_AUDIO to Manifest.permission_group.READ_MEDIA_AURAL,
+    Manifest.permission.POST_NOTIFICATIONS to Manifest.permission_group.NOTIFICATIONS,
+    Manifest.permission.NEARBY_WIFI_DEVICES to Manifest.permission_group.NEARBY_DEVICES,
+    Manifest.permission.BODY_SENSORS_BACKGROUND to Manifest.permission_group.SENSORS,
+).apply {
+    putAll(permissionMapOnS)
+}

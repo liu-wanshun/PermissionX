@@ -60,13 +60,15 @@ interface RationaleFactory {
                         null
                     }
                 }
+
                 currentVersion == Build.VERSION_CODES.Q -> permissionMapOnQ[permission]
                 currentVersion == Build.VERSION_CODES.R -> permissionMapOnR[permission]
                 currentVersion == Build.VERSION_CODES.S -> permissionMapOnS[permission]
+                currentVersion == Build.VERSION_CODES.TIRAMISU -> permissionMapOnT[permission]
                 else -> {
                     // If currentVersion is newer than the latest version we support, we just use
                     // the latest version for temp. Will upgrade in the next release.
-                    permissionMapOnS[permission]
+                    permissionMapOnT[permission]
                 }
             }
             if (permissionGroup == null && currentVersion >= Build.VERSION_CODES.Q) {
