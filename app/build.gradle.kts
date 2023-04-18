@@ -1,9 +1,10 @@
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
+    namespace = "com.lws.permissionapp"
     compileSdk = 33
 
     defaultConfig {

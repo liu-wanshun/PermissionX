@@ -1,15 +1,15 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     `maven-publish`
 }
 
 android {
+    namespace = "com.lws.permissionx"
     compileSdk = 33
 
     defaultConfig {
         minSdk = 19
-        targetSdk = 33
         consumerProguardFile("consumer-rules.pro")
     }
 
