@@ -62,7 +62,7 @@ open class DefaultRationaleFactory : RationaleFactory {
                 namesString
             )
 
-        return AlertDialog.Builder(context, R.style.PermissionDialogTheme)
+        return AlertDialog.Builder(context, R.style.PermissionDialogTheme_Bottom)
             .setView(view)
             .setNegativeButton(R.string.permissionx_default_denied_forever_rationale_negative) { dialog, which ->
                 negative.run()
