@@ -18,7 +18,7 @@ class PermissionResult internal constructor(result: Map<String, Boolean>) {
     }
 
     val isAllGranted: Boolean
-        get() = deniedList.isEmpty()
+        get() = deniedList.isEmpty() && grantedList.isNotEmpty()
 
     fun getGrantedList(): List<String> {
         return grantedList
