@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permissionx_default_rationale_title">%s申請%s許可權</string>
+    <string name="permissionx_default_denied_forever_rationale_title">申請%s許可權</string>
+    <string name="permissionx_default_denied_forever_rationale_message">為正常使用該功能，請前往系統應用設定中開啟%s許可權</string>
+    <string name="permissionx_default_denied_forever_rationale_positive">去設定</string>
+    <string name="permissionx_default_denied_forever_rationale_negative">不允許</string>
+</resources>
