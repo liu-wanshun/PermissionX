@@ -40,7 +40,7 @@ dependencies {
 publishing {
     publications {
         register<MavenPublication>("release") {
-            groupId = "com.github.liu-wanshun"
+            groupId = "io.github.liu-wanshun"
             artifactId = "permissionx"
             version = "1.0"
             afterEvaluate {

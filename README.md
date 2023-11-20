@@ -1,6 +1,6 @@
 # PermissionX
 
-[![jitpack](https://jitpack.io/v/liu-wanshun/PermissionX.svg)](https://jitpack.io/#liu-wanshun/PermissionX)
+[![jitpack](https://jitpack.io/v/io.github.liu-wanshun/permissionx.svg)](https://jitpack.io/#io.github.liu-wanshun/permissionx)
 [![license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 
 	一个简单易用的Android 运行时权限请求框架。
@@ -22,7 +22,7 @@ allprojects {
 ```groovy
 dependencies {
     //仅支持AndroidX
-    implementation("com.github.liu-wanshun:PermissionX:latest_version")
+    implementation("io.github.liu-wanshun:permissionx:latest_version")
 }
 ```
 
