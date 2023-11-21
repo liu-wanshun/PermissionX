@@ -2,10 +2,10 @@ package com.lws.permissionx
 
 import android.content.Context
 import android.content.pm.PackageManager
+import androidx.activity.ComponentActivity
 import androidx.annotation.CheckResult
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 
 /**
  * @author lws
@@ -13,14 +13,14 @@ import androidx.fragment.app.FragmentActivity
 object PermissionX {
     @CheckResult
     @JvmStatic
-    fun with(activity: FragmentActivity): PermissionMediator {
-        return PermissionMediator(activity)
+    fun with(activity: ComponentActivity): PermissionRationaleEntry {
+        return PermissionRationaleEntry(activity)
     }
 
     @CheckResult
     @JvmStatic
-    fun with(fragment: Fragment): PermissionMediator {
-        return PermissionMediator(fragment)
+    fun with(fragment: Fragment): PermissionRationaleEntry {
+        return PermissionRationaleEntry(fragment)
     }
 
     @JvmStatic

@@ -1,22 +1,33 @@
-package com.lws.permissionx
+package com.lws.permissionx.internal
 
 import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
 import android.view.Gravity
+import androidx.activity.ComponentActivity
+import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import androidx.activity.result.ActivityResultRegistry
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
-import com.lws.permissionx.internal.OrientationHelper
-import com.lws.permissionx.internal.RationaleController
-import com.lws.permissionx.internal.RequestPermissionsContract
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
+import com.lws.permissionx.DefaultRationaleFactory
+import com.lws.permissionx.PermissionRationaleBuilder
+import com.lws.permissionx.PermissionResult
+import com.lws.permissionx.PermissionX
+import java.util.concurrent.atomic.AtomicInteger
 
-/**
- * @author lws
- */
-class InvisibleFragment : Fragment(), RationaleController {
+private val mNextLocalRequestCode: AtomicInteger = AtomicInteger()
+
+internal class DefaultRationaleController(
+    private val activity: ComponentActivity,
+    private val lifecycleOwner: LifecycleOwner
+) : RationaleController {
+    private val registry: ActivityResultRegistry = activity.activityResultRegistry
     private val permissions: MutableList<String> = mutableListOf()
 
     private var permissionBuilder: PermissionRationaleBuilder? = null
@@ -27,19 +38,20 @@ class InvisibleFragment : Fragment(), RationaleController {
         get() = PermissionX.customRationaleFactory ?: DefaultRationaleFactory()
 
 
-    private val appDetailsSetting = registerForActivityResult(StartActivityForResult()) {
-        val result = buildMap {
-            permissions.forEach {
-                put(it, PermissionX.hasPermissions(requireContext(), it))
+    private val appDetailsSetting =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            val result = buildMap {
+                permissions.forEach {
+                    put(it, PermissionX.hasPermissions(activity, it))
+                }
             }
+            callBackResult(result)
         }
-        callBackResult(result)
-    }
     private val requestPermissions: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(RequestPermissionsContract(this)) { result ->
             val firstDeniedPermission = result.asSequence().firstOrNull { !it.value }?.key
             if (firstDeniedPermission != null && !ActivityCompat.shouldShowRequestPermissionRationale(
-                    requireActivity(),
+                    activity,
                     firstDeniedPermission
                 )
             ) {
@@ -48,6 +60,25 @@ class InvisibleFragment : Fragment(), RationaleController {
                 callBackResult(result)
             }
         }
+
+
+    private fun <I, O> registerForActivityResult(
+        contract: ActivityResultContract<I, O>,
+        callback: ActivityResultCallback<O>
+    ): ActivityResultLauncher<I> {
+        return registry.register(
+            "permission_rq#" + mNextLocalRequestCode.getAndIncrement(), contract, callback
+        ).also {
+            lifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
+                override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                    if (event == Lifecycle.Event.ON_DESTROY) {
+                        it.unregister()
+                        lifecycleOwner.lifecycle.removeObserver(this)
+                    }
+                }
+            })
+        }
+    }
 
 
     internal fun request(
@@ -63,10 +94,10 @@ class InvisibleFragment : Fragment(), RationaleController {
 
     override fun showRationale(permissions: Array<String>) {
         rationaleDialog?.dismiss()
-        val orientationHelper = OrientationHelper(requireActivity())
+        val orientationHelper = OrientationHelper(activity)
         rationaleDialog =
             rationaleFactory.createRationale(
-                requireContext(),
+                activity,
                 permissions,
                 permissionBuilder?.requestRationale
             ).apply {
@@ -84,11 +115,11 @@ class InvisibleFragment : Fragment(), RationaleController {
 
     override fun showDeniedForeverRationale(result: Map<String, Boolean>) {
         rationaleFactory.createDeniedForeverRationale(
-            requireContext(),
+            activity,
             result.keys.toTypedArray(),
             positive = {
                 appDetailsSetting.launch(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                    data = Uri.fromParts("package", requireContext().packageName, null)
+                    data = Uri.fromParts("package", activity.packageName, null)
                 })
             },
             negative = {
@@ -110,15 +141,5 @@ class InvisibleFragment : Fragment(), RationaleController {
 
         val permissionResult = PermissionResult(result)
         permissionBuilder?.callBackResult(permissionResult)
-
-        try {
-            parentFragmentManager.beginTransaction().remove(this).commitAllowingStateLoss()
-        } catch (e: Throwable) {
-            //Fragment not associated with a fragment manager.
-        }
-    }
-
-    companion object {
-        const val TAG = "InvisibleFragment"
     }
 }
