@@ -41,7 +41,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.fragment)
     implementation(libs.androidx.navigation.ui)
-
-    implementation(project(":permissionx"))
+    implementation(project(":permission-rationale"))
 
 }

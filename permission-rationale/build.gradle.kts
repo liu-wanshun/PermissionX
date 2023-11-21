@@ -41,7 +41,7 @@ publishing {
     publications {
         register<MavenPublication>("release") {
             groupId = "io.github.liu-wanshun"
-            artifactId = "permissionx"
+            artifactId = "permission-rationale"
             version = "1.0"
             afterEvaluate {
                 from(components["release"])
