@@ -1,16 +1,19 @@
 package com.lws.permissionx
 
+import androidx.activity.ComponentActivity
 import androidx.annotation.CheckResult
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
+import com.lws.permissionx.internal.DefaultRationaleController
+import java.util.WeakHashMap
 
 /**
  * @author lws
  */
+
+private val weakHashMap = WeakHashMap<Any, DefaultRationaleController>()
 class PermissionRationaleBuilder internal constructor(
-    private val activity: FragmentActivity,
+    private val activity: ComponentActivity,
     private val fragment: Fragment?,
     private val permissions: Array<String>
 ) {
@@ -19,27 +22,17 @@ class PermissionRationaleBuilder internal constructor(
     @JvmField
     internal var requestRationale: CharSequence? = null
 
-    @JvmSynthetic
-    @JvmField
-    internal var deniedForeverRationale: CharSequence? = null
-
     private var permissionResultCallback: PermissionResultCallback? = null
 
-    private val fragmentManager: FragmentManager
-        get() = fragment?.childFragmentManager ?: activity.supportFragmentManager
 
-
-    private val invisibleFragment: InvisibleFragment
+    private val rationaleController: DefaultRationaleController
         get() {
-            val fragment = fragmentManager.findFragmentByTag(InvisibleFragment.TAG)
-            return if (fragment is InvisibleFragment) {
-                fragment
-            } else {
-                val invisibleFragment = InvisibleFragment()
-                fragmentManager.beginTransaction().add(invisibleFragment, InvisibleFragment.TAG)
-                    .commitNowAllowingStateLoss()
-                invisibleFragment
+            var controller = weakHashMap[fragment ?: activity]
+            if (controller == null) {
+                controller = DefaultRationaleController(activity, fragment ?: activity)
             }
+            weakHashMap[fragment ?: activity] = controller
+            return controller
         }
 
     /**
@@ -49,7 +42,7 @@ class PermissionRationaleBuilder internal constructor(
      */
     fun request(permissionResultCallback: PermissionResultCallback) {
         this.permissionResultCallback = permissionResultCallback
-        invisibleFragment.request(this, permissions)
+        rationaleController.request(this, permissions)
     }
 
 

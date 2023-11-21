@@ -1,17 +1,17 @@
 package com.lws.permissionx
 
+import androidx.activity.ComponentActivity
 import androidx.annotation.CheckResult
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 
 /**
  * @author lws
  */
-class PermissionMediator {
-    private val activity: FragmentActivity
+class PermissionRationaleEntry {
+    private val activity: ComponentActivity
     private var fragment: Fragment? = null
 
-    internal constructor(activity: FragmentActivity) {
+    internal constructor(activity: ComponentActivity) {
         this.activity = activity
     }
 
