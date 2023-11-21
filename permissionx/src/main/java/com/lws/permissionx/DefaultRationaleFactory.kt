@@ -2,11 +2,12 @@ package com.lws.permissionx
 
 import android.app.Dialog
 import android.content.Context
+import android.os.Bundle
 import android.view.Gravity
-import android.view.LayoutInflater
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
+import androidx.activity.ComponentDialog
 
 open class DefaultRationaleFactory : RationaleFactory {
     override fun createRationale(
@@ -14,24 +15,22 @@ open class DefaultRationaleFactory : RationaleFactory {
         permissions: Array<String>,
         rationaleMsg: CharSequence?
     ): Dialog {
-
-        val namesString = StringBuilder().apply {
-            buildPermissionNames(permissions, context).joinTo(this)
+        return object : ComponentDialog(context, R.style.PermissionDialogTheme) {
+            override fun onCreate(savedInstanceState: Bundle?) {
+                super.onCreate(savedInstanceState)
+                setContentView(R.layout.permissionx_rationale)
+                val namesString = StringBuilder().apply {
+                    buildPermissionNames(permissions, context).joinTo(this)
+                }
+                findViewById<ImageView>(R.id.app_icon).setImageResource(context.applicationInfo.icon)
+                findViewById<TextView>(R.id.title).text = context.getString(
+                    R.string.permissionx_default_rationale_title,
+                    context.applicationInfo.loadLabel(context.packageManager),
+                    namesString
+                )
+                findViewById<TextView>(R.id.message).text = rationaleMsg
+            }
         }
-
-        val view = LayoutInflater.from(context).inflate(R.layout.permissionx_rationale, null)
-
-        view.findViewById<ImageView>(R.id.app_icon).setImageResource(context.applicationInfo.icon)
-        view.findViewById<TextView>(R.id.title).text = context.getString(
-            R.string.permissionx_default_rationale_title,
-            context.applicationInfo.loadLabel(context.packageManager),
-            namesString
-        )
-
-        view.findViewById<TextView>(R.id.message).text = rationaleMsg
-        return AlertDialog.Builder(context, R.style.PermissionDialogTheme)
-            .setView(view)
-            .create()
     }
 
     override fun createDeniedForeverRationale(
@@ -41,36 +40,49 @@ open class DefaultRationaleFactory : RationaleFactory {
         negative: Runnable
     ): Dialog {
 
-        val namesString = StringBuilder().apply {
-            buildPermissionNames(permissions, context).joinTo(this)
-        }
-
-        val view =
-            LayoutInflater.from(context).inflate(R.layout.permissionx_denied_rationale, null)
-
-        view.findViewById<ImageView>(R.id.app_icon).setImageResource(context.applicationInfo.icon)
-        view.findViewById<TextView>(R.id.app_name).text =
-            context.applicationInfo.loadLabel(context.packageManager)
-
-        view.findViewById<TextView>(R.id.title).text = context.getString(
-            R.string.permissionx_default_denied_forever_rationale_title,
-            namesString
-        )
-        view.findViewById<TextView>(R.id.message).text =
-            context.getString(
-                R.string.permissionx_default_denied_forever_rationale_message,
-                namesString
-            )
-
-        return AlertDialog.Builder(context, R.style.PermissionDialogTheme_Bottom)
-            .setView(view)
-            .setNegativeButton(R.string.permissionx_default_denied_forever_rationale_negative) { dialog, which ->
-                negative.run()
-            }
-            .setPositiveButton(R.string.permissionx_default_denied_forever_rationale_positive) { dialog, which ->
-                positive.run()
-            }.create().apply {
+        return object : ComponentDialog(context, R.style.PermissionDialogTheme_Bottom) {
+            init {
                 window?.setGravity(Gravity.BOTTOM)
             }
+
+            override fun onCreate(savedInstanceState: Bundle?) {
+                super.onCreate(savedInstanceState)
+                setContentView(R.layout.permissionx_denied_rationale)
+                val namesString = StringBuilder().apply {
+                    buildPermissionNames(permissions, context).joinTo(this)
+                }
+                findViewById<ImageView>(R.id.app_icon).setImageResource(context.applicationInfo.icon)
+                findViewById<TextView>(R.id.app_name).text =
+                    context.applicationInfo.loadLabel(context.packageManager)
+
+                findViewById<TextView>(R.id.title).text = context.getString(
+                    R.string.permissionx_default_denied_forever_rationale_title,
+                    namesString
+                )
+                findViewById<TextView>(R.id.message).text =
+                    context.getString(
+                        R.string.permissionx_default_denied_forever_rationale_message,
+                        namesString
+                    )
+
+                findViewById<Button>(android.R.id.button1).apply {
+                    text =
+                        context.getText(R.string.permissionx_default_denied_forever_rationale_positive)
+                    setOnClickListener {
+                        positive.run()
+                        dismiss()
+                    }
+                }
+
+                findViewById<Button>(android.R.id.button2).apply {
+                    text =
+                        context.getText(R.string.permissionx_default_denied_forever_rationale_negative)
+                    setOnClickListener {
+                        negative.run()
+                        dismiss()
+                    }
+                }
+            }
+        }
     }
 }

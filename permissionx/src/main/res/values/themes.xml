@@ -3,10 +3,11 @@
 
 
     <style name="PermissionDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
-        <item name="alertDialogStyle">@style/PermissionAlertDialogStyle</item>
         <item name="dialogCornerRadius">16dp</item>
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonDialog</item>
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonDialog</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
     <style name="PermissionDialogTheme.Bottom">
         <item name="android:windowAnimationStyle">@style/Animation.Permission.BottomSheetDialog</item>
@@ -18,6 +19,7 @@
     </style>
 
     <style name="PositiveButtonDialog">
+        <item name="android:backgroundTint">?attr/colorPrimary</item>
         <item name="backgroundTint">?attr/colorPrimary</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:stateListAnimator">@null</item>
@@ -26,16 +28,12 @@
     </style>
 
     <style name="NegativeButtonDialog">
+        <item name="android:backgroundTint">?attr/colorButtonNormal</item>
         <item name="backgroundTint">?attr/colorButtonNormal</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:stateListAnimator">@null</item>
         <item name="android:insetBottom">4dp</item>
         <item name="android:insetTop">4dp</item>
-    </style>
-
-
-    <style name="PermissionAlertDialogStyle" parent="Base.AlertDialog.AppCompat">
-        <item name="android:layout">@layout/permissionx_alert_dialog</item>
     </style>
 
 </resources>
