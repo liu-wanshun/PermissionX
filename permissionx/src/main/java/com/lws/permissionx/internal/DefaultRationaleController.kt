@@ -18,7 +18,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.lws.permissionx.DefaultRationaleFactory
 import com.lws.permissionx.PermissionRationaleBuilder
 import com.lws.permissionx.PermissionResult
-import com.lws.permissionx.PermissionX
+import com.lws.permissionx.PermissionRationale
 import java.util.concurrent.atomic.AtomicInteger
 
 private val mNextLocalRequestCode: AtomicInteger = AtomicInteger()
@@ -35,14 +35,14 @@ internal class DefaultRationaleController(
     private var rationaleDialog: Dialog? = null
 
     private val rationaleFactory
-        get() = PermissionX.customRationaleFactory ?: DefaultRationaleFactory()
+        get() = PermissionRationale.customRationaleFactory ?: DefaultRationaleFactory()
 
 
     private val appDetailsSetting =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             val result = buildMap {
                 permissions.forEach {
-                    put(it, PermissionX.hasPermissions(activity, it))
+                    put(it, PermissionRationale.hasPermissions(activity, it))
                 }
             }
             callBackResult(result)

@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.lws.permissionx.PermissionX
+import com.lws.permissionx.PermissionRationale
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.request).setOnClickListener {
 
             val permissions = needRequestPermissions()
-            PermissionX.with(this)
+            PermissionRationale.with(this)
                 .permissions(*permissions)
                 .onRequestRationale("授权通过后，方便在聊天中，提供发送手机相册中的媒体内容给对方的能力")
                 .request { result ->
@@ -27,11 +27,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.custom).setOnClickListener {
-            PermissionX.setRationaleFactory(CustomRationaleFactory())
+            PermissionRationale.setRationaleFactory(CustomRationaleFactory())
         }
 
         findViewById<Button>(R.id.cancel_custom).setOnClickListener {
-            PermissionX.setRationaleFactory(null)
+            PermissionRationale.setRationaleFactory(null)
         }
 
     }

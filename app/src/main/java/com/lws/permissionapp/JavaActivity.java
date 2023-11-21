@@ -9,7 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.lws.permissionx.PermissionX;
+import com.lws.permissionx.PermissionRationale;
 
 public class JavaActivity extends AppCompatActivity {
 
@@ -35,7 +35,7 @@ public class JavaActivity extends AppCompatActivity {
                 }
 
                 if (permissionInfo != null) {
-                    PermissionX.with(JavaActivity.this)
+                    PermissionRationale.with(JavaActivity.this)
                             .permissions(permission)
                             .request(result -> {
                                 Toast.makeText(JavaActivity.this, result.toString(), Toast.LENGTH_LONG).show();

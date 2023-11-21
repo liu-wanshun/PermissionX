@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 /**
  * @author lws
  */
-class PermissionX {
+class PermissionRationale {
 
     private val activity: ComponentActivity
     private var fragment: Fragment? = null
@@ -40,14 +40,14 @@ class PermissionX {
 
         @CheckResult
         @JvmStatic
-        fun with(activity: ComponentActivity): PermissionX {
-            return PermissionX(activity)
+        fun with(activity: ComponentActivity): PermissionRationale {
+            return PermissionRationale(activity)
         }
 
         @CheckResult
         @JvmStatic
-        fun with(fragment: Fragment): PermissionX {
-            return PermissionX(fragment)
+        fun with(fragment: Fragment): PermissionRationale {
+            return PermissionRationale(fragment)
         }
 
         @JvmStatic
