@@ -1,10 +1,10 @@
-package com.lws.permissionx
+package com.lws.permissionrationale
 
 import androidx.activity.ComponentActivity
 import androidx.annotation.CheckResult
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import com.lws.permissionx.internal.DefaultRationaleController
+import com.lws.permissionrationale.internal.DefaultRationaleController
 import java.util.WeakHashMap
 
 /**

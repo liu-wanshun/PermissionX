@@ -1,4 +1,4 @@
-package com.lws.permissionx.internal
+package com.lws.permissionrationale.internal
 
 import android.app.Dialog
 import android.content.Intent
@@ -15,10 +15,10 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import com.lws.permissionx.DefaultRationaleFactory
-import com.lws.permissionx.PermissionRationaleBuilder
-import com.lws.permissionx.PermissionResult
-import com.lws.permissionx.PermissionRationale
+import com.lws.permissionrationale.DefaultRationaleFactory
+import com.lws.permissionrationale.PermissionRationaleBuilder
+import com.lws.permissionrationale.PermissionResult
+import com.lws.permissionrationale.PermissionRationale
 import java.util.concurrent.atomic.AtomicInteger
 
 private val mNextLocalRequestCode: AtomicInteger = AtomicInteger()

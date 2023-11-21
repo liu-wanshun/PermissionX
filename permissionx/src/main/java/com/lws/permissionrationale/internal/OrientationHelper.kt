@@ -1,4 +1,4 @@
-package com.lws.permissionx.internal
+package com.lws.permissionrationale.internal
 
 import android.annotation.SuppressLint
 import android.app.Activity

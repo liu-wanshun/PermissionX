@@ -2,7 +2,7 @@ package com.lws.permissionapp
 
 import android.content.Context
 
-import com.lws.permissionx.DefaultRationaleFactory
+import com.lws.permissionrationale.DefaultRationaleFactory
 
 class CustomRationaleFactory : DefaultRationaleFactory() {
 

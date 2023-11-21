@@ -1,4 +1,4 @@
-package com.lws.permissionx.internal
+package com.lws.permissionrationale.internal
 
 internal interface RationaleController {
     fun showRationale(permissions: Array<String>)

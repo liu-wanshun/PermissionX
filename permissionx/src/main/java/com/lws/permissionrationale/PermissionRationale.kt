@@ -1,4 +1,4 @@
-package com.lws.permissionx
+package com.lws.permissionrationale
 
 import android.content.Context
 import android.content.pm.PackageManager

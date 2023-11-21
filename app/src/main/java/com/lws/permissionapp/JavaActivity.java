@@ -9,7 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.lws.permissionx.PermissionRationale;
+import com.lws.permissionrationale.PermissionRationale;
 
 public class JavaActivity extends AppCompatActivity {
 
