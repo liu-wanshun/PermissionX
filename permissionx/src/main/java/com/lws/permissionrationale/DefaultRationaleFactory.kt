@@ -15,16 +15,16 @@ open class DefaultRationaleFactory : RationaleFactory {
         permissions: Array<String>,
         rationaleMsg: CharSequence?
     ): Dialog {
-        return object : ComponentDialog(context, R.style.PermissionDialogTheme) {
+        return object : ComponentDialog(context, R.style.PermissionRationaleDialogTheme) {
             override fun onCreate(savedInstanceState: Bundle?) {
                 super.onCreate(savedInstanceState)
-                setContentView(R.layout.permissionx_rationale)
+                setContentView(R.layout.permissionrationale_rationale)
                 val namesString = StringBuilder().apply {
                     buildPermissionNames(permissions, context).joinTo(this)
                 }
                 findViewById<ImageView>(R.id.app_icon).setImageResource(context.applicationInfo.icon)
                 findViewById<TextView>(R.id.title).text = context.getString(
-                    R.string.permissionx_default_rationale_title,
+                    R.string.permissionrationale_default_rationale_title,
                     context.applicationInfo.loadLabel(context.packageManager),
                     namesString
                 )
@@ -40,14 +40,14 @@ open class DefaultRationaleFactory : RationaleFactory {
         negative: Runnable
     ): Dialog {
 
-        return object : ComponentDialog(context, R.style.PermissionDialogTheme_Bottom) {
+        return object : ComponentDialog(context, R.style.PermissionRationaleDialogTheme_Bottom) {
             init {
                 window?.setGravity(Gravity.BOTTOM)
             }
 
             override fun onCreate(savedInstanceState: Bundle?) {
                 super.onCreate(savedInstanceState)
-                setContentView(R.layout.permissionx_denied_rationale)
+                setContentView(R.layout.permissionrationale_denied_rationale)
                 val namesString = StringBuilder().apply {
                     buildPermissionNames(permissions, context).joinTo(this)
                 }
@@ -56,18 +56,18 @@ open class DefaultRationaleFactory : RationaleFactory {
                     context.applicationInfo.loadLabel(context.packageManager)
 
                 findViewById<TextView>(R.id.title).text = context.getString(
-                    R.string.permissionx_default_denied_forever_rationale_title,
+                    R.string.permissionrationale_default_denied_forever_rationale_title,
                     namesString
                 )
                 findViewById<TextView>(R.id.message).text =
                     context.getString(
-                        R.string.permissionx_default_denied_forever_rationale_message,
+                        R.string.permissionrationale_default_denied_forever_rationale_message,
                         namesString
                     )
 
                 findViewById<Button>(android.R.id.button1).apply {
                     text =
-                        context.getText(R.string.permissionx_default_denied_forever_rationale_positive)
+                        context.getText(R.string.permissionrationale_default_denied_forever_rationale_positive)
                     setOnClickListener {
                         positive.run()
                         dismiss()
@@ -76,7 +76,7 @@ open class DefaultRationaleFactory : RationaleFactory {
 
                 findViewById<Button>(android.R.id.button2).apply {
                     text =
-                        context.getText(R.string.permissionx_default_denied_forever_rationale_negative)
+                        context.getText(R.string.permissionrationale_default_denied_forever_rationale_negative)
                     setOnClickListener {
                         negative.run()
                         dismiss()

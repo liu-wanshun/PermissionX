@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.lws.permissionx"
+    namespace = "com.lws.permissionrationale"
     compileSdk = 33
 
     defaultConfig {

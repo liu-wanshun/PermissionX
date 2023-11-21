@@ -2,23 +2,23 @@
 <resources>
 
 
-    <style name="PermissionDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+    <style name="PermissionRationaleDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="dialogCornerRadius">16dp</item>
-        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonDialog</item>
-        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonDialog</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PermissionRationalePositiveButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/PermissionRationaleNegativeButton</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
     </style>
-    <style name="PermissionDialogTheme.Bottom">
-        <item name="android:windowAnimationStyle">@style/Animation.Permission.BottomSheetDialog</item>
+    <style name="PermissionRationaleDialogTheme.Bottom">
+        <item name="android:windowAnimationStyle">@style/Animation.PermissionRationale.BottomSheetDialog</item>
     </style>
 
-    <style name="Animation.Permission.BottomSheetDialog" parent="Animation.AppCompat.Dialog">
-        <item name="android:windowEnterAnimation">@anim/permissionx_bottom_sheet_slide_in</item>
-        <item name="android:windowExitAnimation">@anim/permissionx_bottom_sheet_slide_out</item>
+    <style name="Animation.PermissionRationale.BottomSheetDialog" parent="Animation.AppCompat.Dialog">
+        <item name="android:windowEnterAnimation">@anim/permissionrationale_bottom_sheet_slide_in</item>
+        <item name="android:windowExitAnimation">@anim/permissionrationale_bottom_sheet_slide_out</item>
     </style>
 
-    <style name="PositiveButtonDialog">
+    <style name="PermissionRationalePositiveButton">
         <item name="android:backgroundTint">?attr/colorPrimary</item>
         <item name="backgroundTint">?attr/colorPrimary</item>
         <item name="android:textColor">@android:color/white</item>
@@ -27,7 +27,7 @@
         <item name="android:insetTop">4dp</item>
     </style>
 
-    <style name="NegativeButtonDialog">
+    <style name="PermissionRationaleNegativeButton">
         <item name="android:backgroundTint">?attr/colorButtonNormal</item>
         <item name="backgroundTint">?attr/colorButtonNormal</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="permissionx_default_rationale_title">%s申请%s权限</string>
-    <string name="permissionx_default_denied_forever_rationale_title">申请%s权限</string>
-    <string name="permissionx_default_denied_forever_rationale_message">为正常使用该功能，请前往系统应用设置中开启%s权限</string>
-    <string name="permissionx_default_denied_forever_rationale_positive">去设置</string>
-    <string name="permissionx_default_denied_forever_rationale_negative">不允许</string>
+    <string name="permissionrationale_default_rationale_title">%s申请%s权限</string>
+    <string name="permissionrationale_default_denied_forever_rationale_title">申请%s权限</string>
+    <string name="permissionrationale_default_denied_forever_rationale_message">为正常使用该功能，请前往系统应用设置中开启%s权限</string>
+    <string name="permissionrationale_default_denied_forever_rationale_positive">去设置</string>
+    <string name="permissionrationale_default_denied_forever_rationale_negative">不允许</string>
 </resources>

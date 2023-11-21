@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="permissionx_default_rationale_title">%s request %s permission</string>
-    <string name="permissionx_default_denied_forever_rationale_title">Request %s permission</string>
-    <string name="permissionx_default_denied_forever_rationale_message">In order to use this function normally, please go to the application settings to allow %s permission</string>
-    <string name="permissionx_default_denied_forever_rationale_positive">Setting</string>
-    <string name="permissionx_default_denied_forever_rationale_negative">Deny</string>
+    <string name="permissionrationale_default_rationale_title">%s request %s permission</string>
+    <string name="permissionrationale_default_denied_forever_rationale_title">Request %s permission</string>
+    <string name="permissionrationale_default_denied_forever_rationale_message">In order to use this function normally, please go to the application settings to allow %s permission</string>
+    <string name="permissionrationale_default_denied_forever_rationale_positive">Setting</string>
+    <string name="permissionrationale_default_denied_forever_rationale_negative">Deny</string>
 </resources>
