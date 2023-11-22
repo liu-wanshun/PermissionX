@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.lws.permissionapp"
+    namespace = "com.lws.permissionrationale.demo"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.lws.permissionapp"
+        applicationId = "com.lws.permissionrationale.demo"
         minSdk = 21
         targetSdk = 33
         versionCode = 1

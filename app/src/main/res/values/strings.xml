@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PermissionX</string>
+    <string name="app_name">PermissionRationale</string>
     <string name="title_kotlin">Kotlin</string>
     <string name="title_java">Java</string>
 </resources>

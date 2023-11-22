@@ -1,4 +1,4 @@
-package com.lws.permissionapp;
+package com.lws.permissionrationale.demo;
 
 import android.content.pm.PackageManager;
 import android.content.pm.PermissionInfo;
