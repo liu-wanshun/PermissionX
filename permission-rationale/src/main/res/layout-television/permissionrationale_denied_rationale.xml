@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="40dp">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+
+        <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/app_icon"
+            android:gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:visibility="gone"
+            tools:text="app名称" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/app_icon"
+            android:layout_alignBottom="@id/app_icon"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="35dp"
+            android:layout_marginBottom="18dp"
+            android:layout_toRightOf="@id/app_icon"
+            android:gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:text="申请 xxx 权限 " />
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_alignStart="@id/title"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:textSize="14sp"
+            tools:text="为正常使用该功能，请前往系统应用设置中开启xxxxxxx,zzzzzzzzzzz权限" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="304dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="6dp"
+        android:gravity="end"
+        android:layoutDirection="locale"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <Button
+            android:id="@android:id/button2"
+            style="?attr/buttonBarNegativeButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:minHeight="48dp"
+            android:textSize="14sp"
+            tools:text="不允许" />
+
+        <Button
+            android:id="@android:id/button1"
+            style="?attr/buttonBarPositiveButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:minHeight="48dp"
+            android:textSize="14sp"
+            tools:text="去设置" />
+
+    </LinearLayout>
+</LinearLayout>
