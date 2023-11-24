@@ -68,18 +68,6 @@
         android:padding="12dp">
 
         <Button
-            android:id="@android:id/button2"
-            style="?attr/buttonBarNegativeButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_weight="1"
-            android:gravity="left|center_vertical"
-            android:minHeight="48dp"
-            android:textSize="14sp"
-            tools:text="不允许" />
-
-        <Button
             android:id="@android:id/button1"
             style="?attr/buttonBarPositiveButtonStyle"
             android:layout_width="match_parent"
@@ -90,6 +78,18 @@
             android:minHeight="48dp"
             android:textSize="14sp"
             tools:text="去设置" />
+
+        <Button
+            android:id="@android:id/button2"
+            style="?attr/buttonBarNegativeButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:minHeight="48dp"
+            android:textSize="14sp"
+            tools:text="不允许" />
 
     </LinearLayout>
 </LinearLayout>

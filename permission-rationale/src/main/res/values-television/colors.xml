@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="permissionrationale_button_text_color_unfocused">#B2EEEEEE</color>
+    <color name="permissionrationale_button_text_color_focused">#000000</color>
+</resources>
